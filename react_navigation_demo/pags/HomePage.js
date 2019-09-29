@@ -32,6 +32,18 @@ export default class Page1 extends Component{
                         navigation.navigate('page3');
                     }}
                 />
+                <Button
+                    title={'go to bottom'}
+                    onPress={()=>{
+                        navigation.navigate('bottom');
+                    }}
+                />
+                <Button
+                    title={'go to top'}
+                    onPress={()=>{
+                        navigation.navigate('top');
+                    }}
+                />
             </View>
         );
     }
