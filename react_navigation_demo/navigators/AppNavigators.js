@@ -1,6 +1,7 @@
 import {createAppContainer} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import {Button} from 'react-native'
+import React from 'react'
 import HomePage from '../pags/HomePage'
 import Page1 from '../pags/Page1'
 import Page2 from '../pags/Page2'
@@ -28,13 +29,13 @@ const AppStackNavigator = createStackNavigator({
             const {state, stateParams} = navigation;
             const {params} = state;
             return {
-                title:params.title?params.title:'this is page3'
-                // headerRight:(
-                //     <Button 
-                //         title={params.mode==='edit'?'保存':'编辑'}
-                //         // onPress={()=>setParams({mode:params.mode==='eidt'?'':'eidt'})}
-                //     />
-                //     )
+                title:params.title?params.title:'this is page3',
+                headerRight:(
+                    <Button 
+                        title={params.mode==='edit'?'保存':'编辑'}
+                        onPress={()=>setParams({mode:params.mode==='eidt'?'':'eidt'})}
+                    />
+                    )
             }
         }
     },

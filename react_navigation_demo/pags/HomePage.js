@@ -3,14 +3,16 @@ import {View, SafeAreaView,Text,StyleSheet,Button} from 'react-native';
 
 
 export default class Page1 extends Component{
-    
+    static navigationOptions = {
+        title:'homePage'
+    }
     componentDidMount(){
         const {navigation} = this.props;
         navigation.title = 'homePage';
     }
 
     render(){
-        const {navigation} = this.props;
+        
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
