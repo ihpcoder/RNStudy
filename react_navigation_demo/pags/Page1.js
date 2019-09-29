@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, SafeAreaView,Text,StyleSheet,Button} from 'react-native';
-import {navigation} from 'react-navigation'
 
 export default class Page1 extends Component{
 
@@ -18,7 +17,7 @@ export default class Page1 extends Component{
                     }}
                 />
                 <Button 
-                    title={'go page2'}
+                    title={'go page4'}
                     onPress={()=>{
                         navigation.navigate('page4');
                     }}

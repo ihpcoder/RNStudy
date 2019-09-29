@@ -4,15 +4,11 @@ import {View, SafeAreaView,Text,StyleSheet,Button} from 'react-native';
 
 export default class Page1 extends Component{
     static navigationOptions = {
-        title:'homePage'
+        title:'homePage',
+        headerBackTitle:'返回哈哈'//返回按钮的title
     }
-    componentDidMount(){
-        const {navigation} = this.props;
-        navigation.title = 'homePage';
-    }
-
     render(){
-        
+        const {navigation} = this.props;
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
@@ -33,7 +29,7 @@ export default class Page1 extends Component{
                 <Button
                     title={'go to page3'}
                     onPress={()=>{
-                        navigation.navigate('page3',{});
+                        navigation.navigate('page3');
                     }}
                 />
             </View>
