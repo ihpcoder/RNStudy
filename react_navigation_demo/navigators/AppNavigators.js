@@ -1,16 +1,70 @@
-import {createAppContainer} from 'react-navigation'
+import {createAppContainer,createSwitchNavigator} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator,createMaterialTopTabNavigator} from 'react-navigation-tabs'
+import {createDrawerNavigator} from 'react-navigation-drawer'
 import React from 'react'
-import {Button,Platform} from 'react-native'
+import {
+    Button,
+    Platform,
+    ScrollView,
+    SafeAreaView,
+    DrawerNavigatorItems
+} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import HomePage from '../pags/HomePage'
 import Page1 from '../pags/Page1'
 import Page2 from '../pags/Page2'
 import Page3 from '../pags/Page3'
 import Page4 from '../pags/Page4'
 import Page5 from '../pags/Page5'
+import Login from '../pags/Login'
+const CustomDrawerContentComponent = props => (
+    <ScrollView>
+      <SafeAreaView
+        style={{backgroundColor:'#789',flex:1}}
+        forceInset={{ top: 'always', horizontal: 'never' }}
+      >
+        <DrawerNavigatorItems {...props} />
+      </SafeAreaView>
+    </ScrollView>
+  );
+  
 
+const DrawerNav = createDrawerNavigator({
+    page4:{
+        screen:Page4,
+        navigationOptions:{
+            drawerLabel:'page4',
+            drawerIcon:({focused,tintColor})=>(
+               <MaterialIcons
+                    name={'drafts'}
+                    size={24}
+                    style={{color:tintColor}}
+                />
+            )
+        }
+    },
+    page5:{
+        screen:Page5,
+        navigationOptions:{
+            drawerLabel:'page5',
+            drawerIcon:({focused,tintColor})=>(
+                <MaterialIcons
+                    name={'move-to-inbox'}
+                    size={24}
+                    style={{color:tintColor}}
+                />
+            )
+        }
+    }
+},{
+    initialRouteName:'page4',
+    contentOptions:{
+        activeTintColor:'#e91e63',
+    },
+    // contentComponent:CustomDrawerContentComponent
+});
 
 const AppTopNavigator = createMaterialTopTabNavigator({
     page1:{
@@ -117,7 +171,7 @@ const AppBottomNavigator = createBottomTabNavigator({
     }
 },{
     tabBarOptions:{
-        activeBackgroundColor:Platform.OS==='ios'?'#e91e6':'#fff'
+        activeTintColor:Platform.OS==='ios'?'red':'#fff'
     }
 });
 const AppStackNavigator = createStackNavigator({
@@ -168,7 +222,40 @@ const AppStackNavigator = createStackNavigator({
         navigationOptions:({navigation})=>({
             title:'AppTopNavigator',
         })
+    },
+    drawer:{
+        screen:DrawerNav,
+        navigationOptions:{
+            title:'drawer',
+        }
     }
 });
 
-export default createAppContainer(AppStackNavigator);
+const AppStack = createStackNavigator({
+    home:{
+        screen:HomePage,
+    },
+    page1:{
+        screen:Page1,
+    }
+});
+const AuthStack = createStackNavigator({
+    login:{
+        screen:Login,
+        navigationOptions:{
+            header:null,
+        }
+    }
+},{
+})
+
+
+const switchNav = createSwitchNavigator({
+    Auth:AuthStack,
+    App:AppStackNavigator,
+},{
+    initialRouteName:'Auth',
+})
+
+
+export default createAppContainer(switchNav);

@@ -44,6 +44,18 @@ export default class Page1 extends Component{
                         navigation.navigate('top');
                     }}
                 />
+                <Button
+                    title={'go to drawer'}
+                    onPress={()=>{
+                        navigation.navigate('drawer');
+                    }}
+                />
+                <Button
+                    title={'go to login'}
+                    onPress={()=>{
+                        navigation.navigate('Auth');
+                    }}
+                />
             </View>
         );
     }
