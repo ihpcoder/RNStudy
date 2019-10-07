@@ -216,7 +216,7 @@ export default class FlatListDemo extends Component {
      * item点击事件
      */
     _onItemClick(item) {
-        console.log("page" + this.state.page + " = " + item.baike_name)
+        // console.log("page" + this.state.page + " = " + item.baike_name)
     }
 }
 

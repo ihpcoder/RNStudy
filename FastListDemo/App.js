@@ -34,6 +34,18 @@ class App extends React.Component {
                   title={'go to FlatListDemo'}
                   onPress={()=>navigation.navigate('FlatListDemo')}
               />
+              <Button 
+                  title={'go to FlatListDemo2'}
+                  onPress={()=>navigation.navigate('FlatListDemo2')}
+              />
+              <Button 
+                  title={'go to SwipeableFlatListDemo'}
+                  onPress={()=>navigation.navigate('SwipeableFlatListDemo')}
+              />
+              <Button 
+                  title={'go to SectionListDemo'}
+                  onPress={()=>navigation.navigate('SectionListDemo')}
+              />
             </View>
     
     }
