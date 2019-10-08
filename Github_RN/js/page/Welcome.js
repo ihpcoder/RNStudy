@@ -22,7 +22,7 @@ export default class Welcome extends Component {
     componentDidMount(){
      this.timer =  setTimeout(()=>{
         NavigationUtil.resetToHomePage(this.props);
-      },2000);
+      },200);
     }
     componentWillUnmount(){
       this.timer && clearTimeout(this.timer);
