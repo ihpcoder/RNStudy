@@ -7,43 +7,36 @@ import {
   Text,
 } from 'react-native';
 import NavigationUtil from '../navigator/NaviagtionUtil';
+import { blue } from 'ansi-colors';
 
 
 export default class PopularPage extends Component {
-    static navigationOptions={
-        title:'最热',
+    constructor(props){
+        super(props);
+        this.tabNames= ['Java','Android','iOS','ReactNative','ionic','PHP'];
+    }
+    _getTabs(){
+        const tabs = {};
+        this.tabNames.forEach((item,index)=>{
+            tabs[`tab${index}`] = {
+                screen:props=><PopularTab {...props} tabLabel={item}/>,
+                navigationOptions:{
+                    title:item
+                }
+            }
+        });
+        return tabs;
     }
     render(){
-        const TabNavigator=createMaterialTopTabNavigator({
-            PopularTab1:{
-                screen:PopularTab,
-                navigationOptions:{
-                    title:'tab1',
-                }
-            },
-            PopularTab2:{
-                screen:PopularTab,
-                navigationOptions:{
-                    title:'tab2',
-                }
-            },
-            PopularTab3:{
-                screen:PopularTab,
-                navigationOptions:{
-                    title:'tab3',
-                }
-            },
-            PopularTab4:{
-                screen:PopularTab,
-                navigationOptions:{
-                    title:'tab4',
-                }
-            },
-            PopularTab5:{
-                screen:PopularTab,
-                navigationOptions:{
-                    title:'tab5',
-                }
+        const TabNavigator=createMaterialTopTabNavigator(this._getTabs(),{
+            tabBarOptions:{
+                tabStyle:styles.tabStyle,
+                upperCaseLabel:false,
+                scrollEnabled:true,
+                style:{backgroundColor:'#678'},
+                indicatorStyle:styles.indicatorStyle,
+                labelStyle:styles.labelStyle,
+                    
             }
         });
         const AppContainer = createAppContainer(TabNavigator);
@@ -70,15 +63,27 @@ class PopularTab extends Component {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: 'red',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin:10,
-  }
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+        backgroundColor: 'red',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin:10,
+    },
+    tabStyle:{
+        minWidth:50
+    },
+    indicatorStyle:{
+        height:2,
+        backgroundColor:'white'
+    },
+    labelStyle:{
+        fontSize:13,
+        marginTop:6,
+        marginBottom:6
+    }
 });

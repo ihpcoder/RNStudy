@@ -82,7 +82,7 @@ export default class HomePage extends Component {
 
     render(){
         // const Tab = createAppContainer(this._tabNavigator());
-
+        NavigationUtil.navigation = this.props.navigation;
         return <DynamicTabNavigator />;
     }
 };
