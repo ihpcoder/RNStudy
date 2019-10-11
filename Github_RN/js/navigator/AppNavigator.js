@@ -1,6 +1,24 @@
-import {createAppContainer,createSwitchNavigator} from 'react-navigation'
-import {createStackNavigator} from 'react-navigation-stack'
-import {createBottomTabNavigator,createMaterialTopTabNavigator} from 'react-navigation-tabs'
+import {
+    createAppContainer,
+    createSwitchNavigator
+} from 'react-navigation'
+import {
+    createStackNavigator
+} from 'react-navigation-stack'
+import {
+    connect,
+    provide
+} from 'react-redux'
+import {
+    createStore,
+    applyMiddleware,
+    combineReducers,
+  } from 'redux';
+import {
+    createNavigationReducer,
+    createReactNavigationReduxMiddleware, 
+    createReduxContainer
+} from 'react-navigation-redux-helpers'
 
 
 import Welcome from '../page/Welcome'
@@ -40,4 +58,33 @@ const switchNavigator =  createSwitchNavigator({
     }
 });
 const AppNaviagtor = createAppContainer(switchNavigator);
-export default AppNaviagtor;
+
+const navReducer = createNavigationReducer(AppNaviagtor);
+const appReducer = combineReducers({
+  nav: navReducer,
+});
+
+const middleware = createReactNavigationReduxMiddleware(
+    'root',
+    state=>state.nav
+);
+const App = createReduxContainer(AppNaviagtor);
+const mapStateToProps = (state) => ({
+    state: state.nav,
+  });
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+
+const store = createStore(
+    appReducer,
+    applyMiddleware(middleware),
+  );
+class Root extends React.Component {
+    render() {
+      return (
+        <Provider store={store}>
+          <AppWithNavigationState />
+        </Provider>
+      );
+    }
+}
