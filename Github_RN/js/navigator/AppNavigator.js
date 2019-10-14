@@ -62,12 +62,12 @@ export  const switchNavigator =  createSwitchNavigator({
         header:null
     }
 });
-export const AppNavigator = createAppContainer(switchNavigator);
+export const AppContainer = createAppContainer(switchNavigator);
 
 export const middleware = createReactNavigationReduxMiddleware(
     state=>state.nav,
 );
-const App = createReduxContainer(AppNavigator);
+const App = createReduxContainer(AppContainer);
 const mapStateToProps = (state) => ({
     state: state.nav,
   });

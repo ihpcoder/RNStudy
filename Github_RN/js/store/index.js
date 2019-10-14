@@ -9,4 +9,4 @@ const middlewares = [
 /**
  * 创建store
  */
-export default createStore(reducers,applyMiddleware(...middlewares));
+export default createStore(reducers);
