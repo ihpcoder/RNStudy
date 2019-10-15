@@ -21,65 +21,6 @@ import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
 import NavigationUtil from '../navigator/NaviagtionUtil';
 
 export default class HomePage extends Component {
-
-    // _tabNavigator(){
-    //     const tab = createBottomTabNavigator({
-    //         PopularPage:{
-    //             screen:PopularPage,
-    //             navigationOptions:{
-    //                 tabBarLabel:'最热',
-    //                 tabBarIcon:({tintColor,focused})=>{
-    //                    return <MaterialIcons 
-    //                             name={'whatshot'}
-    //                             size={26}
-    //                             style={{color:tintColor}}
-    //                         />
-    //                 }
-    //             }
-    //         },
-    //         TrendingPage:{
-    //             screen:TrendingPage,
-    //             navigationOptions:{
-    //                 tabBarLabel:'趋势',
-    //                 tabBarIcon:({tintColor,focused})=>{
-    //                     return <Ionicons 
-    //                              name={'md-trending-up'}
-    //                              size={26}
-    //                              style={{color:tintColor}}
-    //                          />
-    //                  }
-    //             }
-    //         },
-    //         FavoritePage: {
-    //             screen: FavoritePage,
-    //             navigationOptions:{
-    //                 tabBarLabel:'收藏',
-    //                 tabBarIcon:({tintColor,focused})=>{
-    //                     return <MaterialIcons 
-    //                              name={'favorite'}
-    //                              size={26}
-    //                              style={{color:tintColor}}
-    //                          />
-    //                  }
-    //             }
-    //         },
-    //         MyPage: {
-    //             screen: MyPage,
-    //             navigationOptions:{
-    //                 tabBarLabel:'我的',
-    //                 tabBarIcon:({tintColor,focused})=>{
-    //                     return <Entypo 
-    //                              name={'user'}
-    //                              size={26}
-    //                              style={{color:tintColor}}
-    //                          />
-    //                  }
-    //             }
-    //         }
-    //       });
-    //     return tab;
-    // }
-
     render(){
         // const Tab = createAppContainer(this._tabNavigator());
         NavigationUtil.navigation = this.props.navigation;

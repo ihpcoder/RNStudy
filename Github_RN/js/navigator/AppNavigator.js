@@ -5,29 +5,10 @@ import {
 import {
     createStackNavigator
 } from 'react-navigation-stack'
-import {
-    connect,
-    Provider
-} from 'react-redux'
-import {
-    createStore,
-    applyMiddleware,
-    combineReducers,
-  } from 'redux';
-import {
-    createNavigationReducer,
-    createReactNavigationReduxMiddleware, 
-    createReduxContainer
-} from 'react-navigation-redux-helpers'
 import React from 'react'
-
 import Welcome from '../page/Welcome'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
-
-import store from '../store'
-
-
 
 export const rootCom = 'Init';// 设置根路由
 const InitNavigator = createStackNavigator({
@@ -53,8 +34,7 @@ const MainNavigator = createStackNavigator({
         }
     }
 });
-
-export  const switchNavigator =  createSwitchNavigator({
+ const switchNavigator =  createSwitchNavigator({
     Init:InitNavigator,
     Main:MainNavigator,
 },{
@@ -62,24 +42,6 @@ export  const switchNavigator =  createSwitchNavigator({
         header:null
     }
 });
-export const AppContainer = createAppContainer(switchNavigator);
+ const AppNavigator = createAppContainer(switchNavigator);
 
-export const middleware = createReactNavigationReduxMiddleware(
-    state=>state.nav,
-);
-const App = createReduxContainer(AppContainer);
-const mapStateToProps = (state) => ({
-    state: state.nav,
-  });
-const AppWithNavigationState = connect(mapStateToProps)(App);
-
-class Root extends React.Component {
-    render() {
-      return (
-        <Provider store={store}>
-          <AppWithNavigationState />
-        </Provider>
-      );
-    }
-}
-export default Root;
+ export default AppNavigator;
