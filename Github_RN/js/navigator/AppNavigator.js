@@ -9,7 +9,7 @@ import React from 'react'
 import Welcome from '../page/Welcome'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
-
+import FetchDemoPage from '../page/FetchDemoPage'
 export const rootCom = 'Init';// 设置根路由
 const InitNavigator = createStackNavigator({
     Welcome: {
@@ -31,6 +31,12 @@ const MainNavigator = createStackNavigator({
         screen:DetailPage,
         navigationOptions:{
             title:'DetailPage',
+        }
+    },
+    FetchDemoPage:{
+        screen: FetchDemoPage,
+        navigationOptions:{
+            title: 'FetchDemoPage'
         }
     }
 });

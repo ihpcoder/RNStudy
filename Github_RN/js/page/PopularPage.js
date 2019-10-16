@@ -7,7 +7,7 @@ import {
   Text,
 } from 'react-native';
 import NavigationUtil from '../navigator/NaviagtionUtil';
-import { blue } from 'ansi-colors';
+import FetchDemoPage from './FetchDemoPage'
 
 
 export default class PopularPage extends Component {
@@ -56,6 +56,12 @@ class PopularTab extends Component {
                     }
                 }>
                 跳转到详情页
+            </Text>
+            <Text onPress={()=>{
+                    NavigationUtil.goPage(this.props,'FetchDemoPage')
+                    }
+                }>
+                跳转到FetchDemoPage
             </Text>
             </View>
         );

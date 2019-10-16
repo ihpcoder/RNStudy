@@ -6,24 +6,41 @@
  * @flow
  */
 import React,{Component} from 'react';
-import {createAppContainer,createSwitchNavigator} from 'react-navigation'
-import {createStackNavigator} from 'react-navigation-stack'
-import {createBottomTabNavigator,createMaterialTopTabNavigator} from 'react-navigation-tabs'
-import  MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import  Ionicons from 'react-native-vector-icons/Ionicons'
-import  Entypo from 'react-native-vector-icons/Entypo'
-import PopularPage from './PopularPage'
-import FavoritePage from './FavoritePage'
-import MyPage from './MyPage'
-import TrendingPage from './TrendingPage'
-
+import {BackHandler} from 'react-native'
+import {NavigationActions} from 'react-navigation'
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
 import NavigationUtil from '../navigator/NaviagtionUtil';
+import { connect } from 'react-redux';
 
-export default class HomePage extends Component {
+ class HomePage extends Component {
+    componentDidMount(){
+        BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
+    }
+    componentWillUnmount(){
+        BackHandler.removeEventListener('hardwareBackPress',this.onBackPress);
+    }
+    /**
+     * 处理安卓中的物理返回键
+     * 
+     */
+    onBackPress= ()=>{
+        const {dispatch, nav} = this.props;
+        if(nav.routes[1].index === 0){//如果是RootNavigator中的MainNavigator的index
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    }
     render(){
         // const Tab = createAppContainer(this._tabNavigator());
         NavigationUtil.navigation = this.props.navigation;
         return <DynamicTabNavigator />;
     }
 };
+const mapStateToProps = state=>({
+    nav: state.nav,
+});
+const mapDispatchToProps = dispatch=> ({
+
+});
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

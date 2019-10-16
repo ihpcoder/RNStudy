@@ -13,9 +13,7 @@ import AppNavigator from '../navigator/AppNavigator'
 import store from '../store'
 
 
-export const middleware = createReactNavigationReduxMiddleware(
-    state=>state.nav,
-);
+
 const AppReduxContainer = createReduxContainer(AppNavigator);
 const mapStateToProps = (state) => ({
     state: state.nav,
