@@ -9,8 +9,8 @@ import {
 } from 'react-navigation-redux-helpers'
 import React from 'react'
 
-import AppNavigator from '../navigator/AppNavigator'
-import store from '../store'
+import AppNavigator from './navigator/AppNavigator'
+import store from './store'
 
 
 

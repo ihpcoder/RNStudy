@@ -6,7 +6,6 @@ import {
     TextInput,
     StyleSheet,
 }from 'react-native'
-import { throwError } from 'rxjs';
 const FETCH_GET_API = 'https://api.github.com/search/repositories?q=';
 export default class FetchDemoPage extends React.Component {
     constructor(props){
@@ -54,7 +53,7 @@ export default class FetchDemoPage extends React.Component {
     }
     render(){
         return  <View style={styles.container}>
-            <Text>FetchDemo</Text>
+            <Text style={styles.text}>FetchDemo</Text>
             <View style={styles.input_container}>
                 <TextInput 
                     ref={'input'}
@@ -80,10 +79,15 @@ const styles = StyleSheet.create({
     container:{
         flex:1
     },
+    text:{
+        height: 20,
+        margin:5,
+        textAlign:"center"
+    },
     input:{
         flex:1,
         height: 30,
-        margin:15,
+        margin:5,
         borderWidth:1,
         borderColor: 'black'
     },
