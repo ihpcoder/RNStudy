@@ -16,7 +16,7 @@ export default class extends React.Component{
         if(!item||!item.owener) return null;
         return  <TouchableOpacity
             onPress={this.props.onSelect}
-        >
+            >
             <View style={styles.cell_container}>
                 <Text style={styles.title}>
                     {item.full_name}
