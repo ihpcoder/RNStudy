@@ -22,6 +22,10 @@ const defaultState = {
  *          isLoading:false,
  *      },
  * }
+ * state 树横向扩展
+ *  如何动态设置store 和动态获取store（难点 storekey不固定）
+ * 
+ * 
  */
 
 export default function onAction(state = defaultState, action) {

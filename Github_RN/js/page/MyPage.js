@@ -18,6 +18,34 @@ export class MyPage extends Component {
               onPress={()=>{
                 this.props.onChangeTheme('blue');
               }}/>
+              <Text style= {styles.text}
+                onPress={()=>{
+                    NavigationUtil.goPage(this.props,'DetailPage')
+                    }
+                }>
+                跳转到详情页
+            </Text>
+            <Text style= {styles.text}
+                onPress={()=>{
+                    NavigationUtil.goPage(this.props,'FetchDemoPage')
+                    }
+                }>
+                跳转到FetchDemoPage
+            </Text>
+            <Text style= {styles.text}
+                onPress={()=>{
+                    NavigationUtil.goPage(this.props,'AsyncStorageDemoPage')
+                    }
+                }>
+                AsyncStorageDemoPage
+            </Text>
+            <Text style= {styles.text}
+                onPress={()=>{
+                    NavigationUtil.goPage(this.props,'DataStoreDemoPage')
+                    }
+                }>
+                DataStoreDemoPage
+            </Text>
         </View>
       );
     }

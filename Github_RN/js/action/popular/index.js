@@ -1,6 +1,5 @@
 import Types from '../types'
-import DataStore from '../../expand/dao/DataStore'
-import console = require('console');
+import DataStore from '../../expand/dao/DataStore';
 /**
  * 获取最热数据的异步action
  */
@@ -25,7 +24,7 @@ function handleData(dispatch,storeName,data){
         storeName
     });
 }
-function handleData(dispatch,storeName,error){
+function handleFail(dispatch,storeName,error){
     dispatch({
         type: Types.LOAD_POPULAR_FAIL,
         error,
