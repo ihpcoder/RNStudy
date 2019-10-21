@@ -16,7 +16,7 @@ const middleware = createReactNavigationReduxMiddleware(
 const middlewares = [
     middleware,
     thunk,
-    logger,
+    // logger,
 ];
 /**
  * 创建store

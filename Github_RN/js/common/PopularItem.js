@@ -6,6 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity
 }from 'react-native'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+
 export default class extends React.Component{
     constructor(props){
         super(props);
@@ -13,9 +15,21 @@ export default class extends React.Component{
     }
     render(){
         const {item}=this.props;
-        if(!item||!item.owener) return null;
+        if(!item||!item.owner) return null;
+        const favoriteButton = <TouchableOpacity    
+                                    style={{padding: 6}}
+                                    onPress={()=>{
+                                    }}
+                                    underlayColor={'transparent'}
+                                >
+                                    <FontAwesome
+                                        name={'star-o'}
+                                        size={26}
+                                        style={{color:'red'}}
+                                    />
+                                </TouchableOpacity>
         return  <TouchableOpacity
-            onPress={this.props.onSelect}
+            onPress={()=>this.props.onSelect(item)}
             >
             <View style={styles.cell_container}>
                 <Text style={styles.title}>
@@ -25,16 +39,17 @@ export default class extends React.Component{
                     {item.description}
                 </Text>
                 <View style={styles.bottom_container}>
-                    <View >
-                        <Text>Start:</Text>
-                        <Text>{item.stargazers_count}</Text>
-                    </View>
-                    <View >
+                    <View style={styles.bottom_container}>
                         <Text>Author:</Text>
                         <Image style={{height:22,width:22}}
                             source={{uri:item.owner.avatar_url}}
                             />
                     </View>
+                    <View style={styles.bottom_container}>
+                        <Text>Start:</Text>
+                        <Text>{item.stargazers_count}</Text>
+                    </View>
+                    {favoriteButton}
                 </View>
             </View>
         </TouchableOpacity>
@@ -42,8 +57,6 @@ export default class extends React.Component{
 }
 const styles = StyleSheet.create({
     cell_container: {
-        height:200,
-        backgroundColor: 'blue',
         padding: 10,
         marginLeft:5,
         marginRight:5,
