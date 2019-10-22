@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import actions from '../action'
 import { connect } from 'react-redux';
+import NavigationUtil from '../navigator/NaviagtionUtil'
 export class MyPage extends Component {
     render(){
       const {navigation} = this.props;

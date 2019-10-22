@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import {BackHandler} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator'

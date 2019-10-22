@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import { createAppContainer,refreshControl } from 'react-navigation';
+import { createAppContainer} from 'react-navigation';
 import {connect} from 'react-redux'
 import actions from '../action/index'
 import {
@@ -14,9 +14,11 @@ import NavigationUtil from '../navigator/NaviagtionUtil';
 import FetchDemoPage from './FetchDemoPage'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-easy-toast'
+import NavigationBar from '../common/NavigationBar'
 
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars';
+const THEME_COLOR = '#678';
 export default class PopularPage extends Component {
     constructor(props){
         super(props);
@@ -35,6 +37,15 @@ export default class PopularPage extends Component {
         return tabs;
     }
     render(){
+        let statusBar = {
+            backgroundColor: THEME_COLOR,
+            barStyle:'light-content',
+        }
+        let navgarionBar = <NavigationBar
+            title={'最热'}
+            statusBar={statusBar}
+            style={{backgroundColor:THEME_COLOR}}
+        />
         const TabNavigator=createMaterialTopTabNavigator(this._getTabs(),{
             tabBarOptions:{
                 tabStyle:styles.tabStyle,
@@ -46,7 +57,12 @@ export default class PopularPage extends Component {
             }
         });
         const AppContainer = createAppContainer(TabNavigator);
-      return <AppContainer />
+      return <View style={{flex:1,marginTop:0}}>
+            {navgarionBar}
+            <AppContainer />
+      </View>
+      
+      
     }
 };
 const pageSize = 10;
