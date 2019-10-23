@@ -86,20 +86,24 @@ const styles = StyleSheet.create({
     },
     navBarTitleContainer:{
         alignItems:'center',
-
+        justifyContent:"center",
+        // backgroundColor:'red'
     },
     navBarButton:{
-        alignItems:'center',
-        justifyContent:'center',
-        position:'absolute',
-        left:40,
-        right:40,
-        top:0,
-        bottom:0,
+        // backgroundColor:'red'
+        // alignItems:'center',
+        // justifyContent:'center',
+        // position:'absolute',
+        // left:40,
+        // right:40,
+        // top:0,
+        // bottom:0,
     },
     title:{
         fontSize:20,
         color: 'white',
+        alignSelf:'center',
+        // backgroundColor:'red',
     },
     statusBar:{
         height: Platform.OS==='ios'?STATUS_BAR_HEIGHT:0,

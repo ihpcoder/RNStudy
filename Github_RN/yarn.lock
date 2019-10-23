@@ -1007,6 +1007,10 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
+GitHubTrending@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/GitHubTrending/-/GitHubTrending-3.1.2.tgz#324072536bdf276506da47cd2c1fe8d8855ebb17"
+
 abab@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.2.tgz#a2fba1b122c69a85caa02d10f9270c7219709a9d"

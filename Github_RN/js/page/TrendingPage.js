@@ -17,12 +17,6 @@ class TrendingPage extends Component {
           <Button 
               title={'改变主题颜色'}
               onPress={()=>{
-                // navigation.setParams({
-                //   theme: {
-                //     tintColor: 'red',
-                //     updateTime: new Date().getTime(),
-                //   }
-                // })
                 this.props.onThemeChange('red');
               }}/>
         </View>
