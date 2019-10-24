@@ -8,7 +8,7 @@ import {
 }from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default class extends React.Component{
+export default class PopularItem extends React.Component{
     constructor(props){
         super(props);
 

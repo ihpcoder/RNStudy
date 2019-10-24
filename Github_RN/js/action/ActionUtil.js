@@ -12,15 +12,20 @@
  */
 export function handleData(type,dispatch,storeName,data,pageSize){
     let fixItems = [];
-    if(data&&data.data&&data.data.items){
-        fixItems = data.data.items;
+    if(data&&data.data){
+        if(Array.isArray(data.data)){
+            fixItems = data.data
+        }else if(Array.isArray(data.data.items)){
+            fixItems = data.data.items;
+        }
     }
     dispatch({
         type: type,
-        items: data && data.data && data.data.items,
+        items: fixItems,
         projectModes: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
         storeName,
         pageIndex:1,
+        hideLoadingMore:pageSize>fixItems.length,
     });
 }
 /**
