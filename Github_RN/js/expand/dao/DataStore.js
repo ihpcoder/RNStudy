@@ -110,7 +110,7 @@ export default class DataStore {
 
     static checkTimestampVaild(timestamp){
         const currentTimestamp = new Date().getTime();
-        if(currentTimestamp-timestamp>1*60*60*1000) return false;
+        if(currentTimestamp-timestamp>1*60*1000) return false;
         return true;
     }
 }

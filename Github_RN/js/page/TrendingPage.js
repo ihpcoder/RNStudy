@@ -4,6 +4,7 @@ import { createAppContainer} from 'react-navigation';
 import {connect} from 'react-redux'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import actions from '../action/index'
+import NavigationUtil from '../navigator/NaviagtionUtil'
 import {
   StyleSheet,
   View,
@@ -12,6 +13,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   DeviceEventEmitter,
+  RefreshControl,
 } from 'react-native';
 import TrendingDialog,{TimeSpans} from '../common/TrendingDialog'
 import TrendingItem from '../common/TrendingItem'
@@ -133,6 +135,11 @@ class TrendingTab extends Component {
             this.loadData();
         })
     }
+    componentWillUnmount(){
+        if(this.timeSpanChangeListener){
+            this.timeSpanChangeListener.remove();
+        }
+    }
     loadData(loadMore){
         const url = this.getFetchUrl(this.storeName);
         const {onLoadTrendingData, onLoadMoreTrending} = this.props;
@@ -173,7 +180,9 @@ class TrendingTab extends Component {
             <TrendingItem
                 item={item}
                 onSelect={(item)=>{
-                    console.log('----'+item.full_name);
+                    NavigationUtil.goPage({
+                        projectModel:item
+                    },'DetailPage');
                 }}
             />
         )
@@ -195,10 +204,21 @@ class TrendingTab extends Component {
             <FlatList
                 // style={{backgroundColor:'red'}}
                 data={store.projectModes}
-                refreshing={store.isLoading}
                 renderItem={data=>this._renderItem(data)}
                 keyExtractor={item => '' + (item.id||item.fullName)}
-                onRefresh={()=>this.loadData()}
+                // refreshing={store.isLoading}
+                // onRefresh={()=>this.loadData()}
+                refreshControl={
+                    <RefreshControl
+                        title={'下拉刷新'}
+                        titleColor={'orange'}
+                        titleColor={'red'}
+                        refreshing={store.isLoading}
+                        onRefresh={
+                            ()=>this.loadData()
+                        }
+                        />
+                }
                 ListFooterComponent={()=>this.genIndicator()}
                 onEndReached={()=>{
                     setTimeout(() => {

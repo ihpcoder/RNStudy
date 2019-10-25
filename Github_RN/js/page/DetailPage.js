@@ -6,21 +6,117 @@
  * @flow
  */
 import React,{Component} from 'react';
+import {connect} from 'react-redux'
 import {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity,
 } from 'react-native';
+import NavigationBar from '../common/NavigationBar'
+import ViewUtil from '../util/ViewUtil'
+import NaviagtionUtil from '../navigator/NaviagtionUtil'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import WebView from 'react-native-webview'
+import DeviceInfo from 'react-native-device-info'
+const TRENDING_URL = 'https://github.com/';
+const THEME_COLOR = '#678';
+class DetailPage extends Component {
+    constructor(props){
+      super(props);
+      this.params = this.props.navigation.state.params;
+      const {projectModel} = this.params;
+      this.url = projectModel.html_url || TRENDING_URL+projectModel.fullName;
+      const title = projectModel.full_name||projectModel.fullName;
+      this.state={
+        title:title,
+        url:this.url,
+        canGoBack: false,
+      }
+    }
+    onNavigationStateChange(e){
+      this.setState({
+        canGoBack:e.canGoBack,
+        url:e.url,
+        // title:e.title,
+      });
+    }
+    renderRightButton(){
+      return(
+      <View
+        style={{flexDirection:'row',alignItems:'center'}}
+      >
+        <TouchableOpacity
+          onPress={()=>{//收藏
 
-export default class DetailPage extends Component {
+          }
+          }
+        >
+          <FontAwesome
+            name='star-o'
+            size={26}
+            style={{color:'white',padding:9}}
+          />
+        </TouchableOpacity>
+        {ViewUtil.getShareButton(()=>{//分享
+            this.share();
+          })}
+      </View>
+      )
+    }
+    share(){
+      console.log('share');
+    }
+    goBack(){
+      if(this.state.canGoBack){
+        this.webView.goBack();
+      }else{
+        NaviagtionUtil.goBack(this.props.navigation);
+      }
+    }
     render(){
+      const{nav,detail}=this.props;
+
+      // let statusBar = {
+      //   backgroundColor: THEME_COLOR,
+      //   barStyle:'light-content',
+      // }
+      const titleLayoutStyle = this.state.title.length > 20 ?{paddingRidght:30}:null;
+      let navgarionBar = <NavigationBar
+          title={this.state.title}
+          // statusBar={statusBar}
+          style={{backgroundColor:THEME_COLOR}}
+          titleLayoutStyle={titleLayoutStyle}
+          leftButton={
+            ViewUtil.getLeftBackButton(()=>this.goBack())
+          }
+          rightButton={
+            this.renderRightButton()
+          }
+      />
+
       return (
+        
         <View style={styles.container}>
-          <Text style={styles.welcome}>DetailPage</Text>
+          {navgarionBar}
+          <WebView
+            source={{uri:this.state.url}}
+            ref={webView=>{this.webView=webView}}
+            startInLoadingState={true}
+            onNavigationStateChange={e=>this.onNavigationStateChange(e)}
+          />
         </View>
       );
     }
 };
+const mapStateToProps = state=>({
+    detail: state.detail,
+    nav: state.nav
+});
+const mapDispatchToProps = dispatch=>({
+  
+});
+export default connect(mapStateToProps,mapDispatchToProps)(DetailPage);
 
 const styles = StyleSheet.create({
   container: {

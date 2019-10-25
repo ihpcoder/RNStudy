@@ -7,10 +7,11 @@ import{
     Text,
     StatusBar,
     Platform,
+    Dimensions,
 }from 'react-native'
 
 
-
+const DEVICE_WIDTH = Dimensions.get('screen').width;
 const NAV_BAR_HEIGHT_IOS = 44; //导航栏在iOS的高度
 const NAV_BAR_HEIGHT_ANDROID = 50; //导航栏在android中的高度
 const STATUS_BAR_HEIGHT = 20; //statusBar高度
@@ -48,6 +49,7 @@ export default class NavigationBar extends React.Component{
     }
 
     render(){
+        // console.log('-----'+DEVICE_WIDTH);
         let statusBar = this.props.statusBar.hidden?null:
             <View style={styles.statusBar}>
                 <StatusBar {...this.props.statusBar}/>
@@ -79,18 +81,22 @@ const styles = StyleSheet.create({
         backgroundColor:'#fafafa',
     },
     navBar:{
+        // display
+        flex:0,
+        flexWrap:'nowrap',
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
         height:Platform.OS==='ios' ? NAV_BAR_HEIGHT_IOS : NAV_BAR_HEIGHT_ANDROID,
     },
     navBarTitleContainer:{
-        alignItems:'center',
-        justifyContent:"center",
-        // backgroundColor:'red'
+        // alignItems:'center',
+        // justifyContent:"center",
+        // backgroundColor:'blue',
+        flexShrink:1,
     },
     navBarButton:{
-        // backgroundColor:'red'
+        // backgroundColor:'blue',
         // alignItems:'center',
         // justifyContent:'center',
         // position:'absolute',
