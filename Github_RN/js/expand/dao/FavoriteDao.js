@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-community/async-storage'
-import { resolve } from 'path';
 
 const FAVORITE_KEY_PREFIX = 'favorite_';
 

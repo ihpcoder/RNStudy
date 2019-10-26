@@ -1,17 +1,17 @@
 import Types from '../types'
-import {handleData,handleFail} from '../ActionUtil'
+import {handleData,handleFail, _projectModels} from '../ActionUtil'
 import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore';
 /**
  * 获取最热数据的异步action
  */
-export function onLoadTrendingData(storeName,url,pageSize){
+export function onLoadTrendingData(storeName,url,pageSize,favoriteDao){
     return dispatch=>{
         dispatch({type: Types.TRENDING_REFRESH, storeName: storeName});
         setTimeout(() => {
             let dataStore = new DataStore();
         dataStore.fetchData(url,FLAG_STORAGE.flag_trending)
             .then(data=>{
-                handleData(Types.TRENDING_REFRESH_SUCCESS,dispatch,storeName,data,pageSize);
+                handleData(Types.TRENDING_REFRESH_SUCCESS,dispatch,storeName,data,pageSize,favoriteDao);
             }).catch(error=>{
                 console.log(error);
                 handleFail(Types.TRENDING_REFRESH_FAIL,dispatch,storeName,error);
@@ -23,7 +23,7 @@ export function onLoadTrendingData(storeName,url,pageSize){
 /**
  * 加载更多
  */
-export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],callback){
+export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],callback,favoriteDao){
     return dispatch => {
         setTimeout(() => {
             if((pageIndex-1)*pageSize >= dataArray.length){//已全部加载
@@ -35,16 +35,19 @@ export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],cal
                     error:'no more data',
                     storeName: storeName,
                     pageIndex: --pageIndex,
-                    projectModes: dataArray
                 })
             }else{
                 let max = pageSize*pageIndex > dataArray.length ? dataArray.length:pageIndex*pageSize;
-                dispatch({
-                    type: Types.TRENDING_LOAD_MORE_SUCCESS,
-                    storeName,
-                    pageIndex,
-                    projectModes: dataArray.slice(0,max),
-                })
+                let projectModes = dataArray.slice(0,max);
+                _projectModels(projectModes,favoriteDao,(projectModels)=>{
+                    dispatch({
+                        type: Types.TRENDING_LOAD_MORE_SUCCESS,
+                        storeName,
+                        pageIndex,
+                        projectModes: projectModels,
+                    });
+                });
+                
             }
         }, 500);
     }

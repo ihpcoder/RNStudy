@@ -19,11 +19,16 @@ import TrendingDialog,{TimeSpans} from '../common/TrendingDialog'
 import TrendingItem from '../common/TrendingItem'
 import Toast from 'react-native-easy-toast'
 import NavigationBar from '../common/NavigationBar'
+import FavoriteDao from '../expand/dao/FavoriteDao'
+import {FLAG_STORAGE} from '../expand/dao/DataStore'
+import FavoriteUtil from '../util/FavoriteUtil'
 
 const URL = 'https://github.com/trending'
 const QUERY_STR = '?since=daily';
 const THEME_COLOR = '#678';
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE';
+
+
 export default class TrendingPage extends Component {
     constructor(props){
         super(props);
@@ -130,6 +135,7 @@ class TrendingTab extends Component {
     }
     componentDidMount(){
         this.loadData();
+        this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
         this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE,(timeSpan)=>{
             this.timeSpan = timeSpan;
             this.loadData();
@@ -147,9 +153,9 @@ class TrendingTab extends Component {
         if(loadMore){
             onLoadMoreTrending(this.storeName,++store.pageIndex,pageSize,store.items,callback=>{
                 this.refs.toast.show('没有更多了');
-            });
+            },this.favoriteDao);
         }else{
-            onLoadTrendingData(this.storeName,url,pageSize);
+            onLoadTrendingData(this.storeName,url,pageSize,this.favoriteDao);
         }
     }
     getFetchUrl(storeName){
@@ -178,11 +184,14 @@ class TrendingTab extends Component {
         const item = data.item;
         return (
             <TrendingItem
-                item={item}
+                projectModel={item}
                 onSelect={(item)=>{
                     NavigationUtil.goPage({
                         projectModel:item
                     },'DetailPage');
+                }}
+                onFavorite={(item, isFavorite)=>{
+                    FavoriteUtil.onFavorite(this.favoriteDao,item,isFavorite,FLAG_STORAGE.flag_);
                 }}
             />
         )
@@ -249,8 +258,8 @@ const mapStateToProps = state=>({
 
 });
 const mapDispatchToProps = dispatch=>({
-  onLoadTrendingData: (storeName,url,pageSize)=>dispatch(actions.onLoadTrendingData(storeName,url,pageSize)),
-  onLoadMoreTrending: (storeName,pageIndex,pageSize,dataArray,callback)=>dispatch(actions.onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray,callback)),
+  onLoadTrendingData: (storeName,url,pageSize,favoriteDao)=>dispatch(actions.onLoadTrendingData(storeName,url,pageSize,favoriteDao)),
+  onLoadMoreTrending: (storeName,pageIndex,pageSize,dataArray,callback,favoriteDao)=>dispatch(actions.onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray,callback,favoriteDao)),
 });
 const TrendingTabPage = connect(mapStateToProps,mapDispatchToProps)(TrendingTab);
 

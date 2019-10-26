@@ -51,7 +51,6 @@ export default class PopularItem extends React.Component{
                 size={26}
                 style={{color:'#678'}}
             />
-
         </TouchableOpacity>
     }
 }

@@ -1,5 +1,5 @@
 import Types from '../types'
-import {handleData,handleFail} from '../ActionUtil'
+import {handleData,handleFail, _projectModels} from '../ActionUtil'
 import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore';
 /**
  * 获取最热数据的异步action
@@ -32,16 +32,19 @@ export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],call
                     error:'no more data',
                     storeName: storeName,
                     pageIndex: --pageIndex,
-                    projectModes: dataArray
                 })
             }else{
                 let max = pageSize*pageIndex > dataArray.length ? dataArray.length:pageIndex*pageSize;
-                dispatch({
-                    type: Types.POPULAR_LOAD_MORE_SUCCESS,
-                    storeName,
-                    pageIndex,
-                    projectModes: dataArray.slice(0,max),
+                let items = dataArray.slice(0,max);
+                _projectModels(items,favorireDao,(projectModels)=>{
+                    dispatch({
+                        type: Types.POPULAR_LOAD_MORE_SUCCESS,
+                        storeName,
+                        pageIndex,
+                        projectModes: projectModels,
+                    })
                 })
+                
             }
         }, 500);
     }
