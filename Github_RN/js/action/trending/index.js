@@ -7,7 +7,6 @@ import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore';
 export function onLoadTrendingData(storeName,url,pageSize,favoriteDao){
     return dispatch=>{
         dispatch({type: Types.TRENDING_REFRESH, storeName: storeName});
-        setTimeout(() => {
             let dataStore = new DataStore();
         dataStore.fetchData(url,FLAG_STORAGE.flag_trending)
             .then(data=>{
@@ -16,7 +15,6 @@ export function onLoadTrendingData(storeName,url,pageSize,favoriteDao){
                 console.log(error);
                 handleFail(Types.TRENDING_REFRESH_FAIL,dispatch,storeName,error);
             })
-        },2000);
         
     }
 }

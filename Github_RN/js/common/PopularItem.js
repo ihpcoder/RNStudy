@@ -15,7 +15,7 @@ export default class PopularItem extends BaseItem{
     render(){
         const {projectModel}=this.props;
         const {item} = projectModel;
-        if(!projectModel||!projectModel.owner) return null;
+        if(!item||!item.owner) return null;
         return  <TouchableOpacity
             onPress={()=>this.props.onSelect(item)}
             >
