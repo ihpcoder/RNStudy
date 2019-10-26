@@ -4,13 +4,13 @@ import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore';
 /**
  * 获取最热数据的异步action
  */
-export function onLoadPopularData(storeName,url,pageSize){
+export function onLoadPopularData(storeName,url,pageSize,favorireDao){
     return dispatch=>{
         dispatch({type: Types.POPULAR_REFRESH, storeName: storeName});
         let dataStore = new DataStore();
         dataStore.fetchData(url,FLAG_STORAGE.flag_popular)
             .then(data=>{
-                handleData(Types.POPULAR_REFRESH_SUCCESS,dispatch,storeName,data,pageSize);
+                handleData(Types.POPULAR_REFRESH_SUCCESS,dispatch,storeName,data,pageSize,favorireDao);
             }).catch(error=>{
                 console.log(error);
                 handleFail(Types.POPULAR_REFRESH_FAIL,dispatch,storeName,error);
@@ -20,7 +20,7 @@ export function onLoadPopularData(storeName,url,pageSize){
 /**
  * 加载更多
  */
-export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],callback){
+export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],callback,favorireDao){
     return dispatch => {
         setTimeout(() => {
             if((pageIndex-1)*pageSize >=dataArray.length){//已全部加载
