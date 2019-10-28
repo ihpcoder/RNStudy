@@ -19,7 +19,7 @@ export default class TrendingItem extends BaseItem {
         if (!item) return null;
         let description = '<p>'+item.description+'</p>'
         return <TouchableOpacity
-            onPress={() => this.props.onSelect(item)}
+            onPress={() => this.onItemClick()}
         >
             <View style={styles.cell_container}>
                 <Text style={styles.title}>
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginVertical: 3,
         borderColor: '#dddddd',
+        backgroundColor:'white',
         borderWidth: 0.5,
         borderRadius: 2,
         shadowColor: 'gray',//ios

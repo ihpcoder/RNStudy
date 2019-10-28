@@ -114,19 +114,23 @@ class PopularTab extends Component {
         }
         return store;
     }
+    onFavorite(item, isFavorite){
+        FavoriteUtil.onFavorite(this.favoriteDao,item,isFavorite,FLAG_STORAGE.flag_popular);
+    }
     _renderItem(data){
-        const item = data.item;
+        const projectModel = data.item;
         return (
             <PopularItem
-                projectModel={item}
-                onSelect={(item)=>{
+                // key={item.item.id}
+                projectModel={projectModel}
+                onSelect={(callback)=>{
                     NavigationUtil.goPage({
-                        projectModel:item
+                        projectModel:projectModel,
+                        flag:FLAG_STORAGE.flag_popular,
+                        callback,
                     },'DetailPage');
                 }}
-                onFavorite={(item, isFavorite)=>{
-                    FavoriteUtil.onFavorite(this.favoriteDao,item,isFavorite,FLAG_STORAGE.flag_popular);
-                }}
+                onFavorite={(item,isFavorite)=>this.onFavorite(item,isFavorite)}
             />
         )
     }
@@ -149,7 +153,7 @@ class PopularTab extends Component {
                 data={store.projectModes}
                 refreshing={store.isLoading}
                 renderItem={data=>this._renderItem(data)}
-                keyExtractor={item=>''+item.id}
+                keyExtractor={item=>(''+item.item.id)}
                 onRefresh={()=>this.loadData()}
                 ListFooterComponent={()=>this.genIndicator()}
                 onEndReached={()=>{

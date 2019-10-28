@@ -17,7 +17,7 @@ export default class PopularItem extends BaseItem{
         const {item} = projectModel;
         if(!item||!item.owner) return null;
         return  <TouchableOpacity
-            onPress={()=>this.props.onSelect(item)}
+            onPress={()=>this.onItemClick()}
             >
             <View style={styles.cell_container}>
                 <Text style={styles.title}>
@@ -34,7 +34,7 @@ export default class PopularItem extends BaseItem{
                             />
                     </View>
                     <View style={styles.bottom_container}>
-                        <Text>Start:</Text>
+                        <Text>Star:</Text>
                         <Text>{item.stargazers_count}</Text>
                     </View>
                     {this._favoriteIcon()}
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         marginLeft:5,
         marginRight:5,
         marginVertical:3,
+        backgroundColor:'white',
         borderColor:'#dddddd',
         borderWidth:0.5,
         borderRadius:2,

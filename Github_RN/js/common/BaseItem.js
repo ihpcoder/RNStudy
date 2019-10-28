@@ -33,12 +33,20 @@ export default class PopularItem extends React.Component{
         }
         return null;
     }
-    onPressFavorite(){
-        const isFavorite = !this.state.isFavorite;
+    setFavoriteState(isFavorite){
         this.props.projectModel.isFavorite = isFavorite;
         this.setState({
             isFavorite: isFavorite,
         });
+    }
+    onItemClick(){
+        this.props.onSelect(isFavorite=>{
+            this.setFavoriteState(isFavorite);
+        });
+    }
+    onPressFavorite(){
+        const isFavorite = !this.state.isFavorite;
+        this.setFavoriteState(isFavorite);
         this.props.onFavorite(this.props.projectModel.item, isFavorite);
     }
     _favoriteIcon(){

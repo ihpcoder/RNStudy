@@ -38,7 +38,7 @@ export function handleData(type,dispatch,storeName,data,pageSize,favoriteDao){
 export async function _projectModels(showItems,favoriteDao,callback){
     let keys = [];
     try{
-        keys = favoriteDao.getFavoriteKeys();
+        keys = await favoriteDao.getFavoriteKeys();
     }catch(e){
         console.log(e);
     }

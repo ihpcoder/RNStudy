@@ -180,19 +180,22 @@ class TrendingTab extends Component {
         }
         return store;
     }
+    onFavorite(item, isFavorite){
+        FavoriteUtil.onFavorite(this.favoriteDao,item,isFavorite,FLAG_STORAGE.flag_trending);
+    }
     _renderItem(data){
         const item = data.item;
         return (
             <TrendingItem
                 projectModel={item}
-                onSelect={(item)=>{
+                onSelect={(callback)=>{
                     NavigationUtil.goPage({
-                        projectModel:item
+                        projectModel:item,
+                        flag:FLAG_STORAGE.flag_trending,
+                        callback,
                     },'DetailPage');
                 }}
-                onFavorite={(item, isFavorite)=>{
-                    FavoriteUtil.onFavorite(this.favoriteDao,item,isFavorite,FLAG_STORAGE.flag_);
-                }}
+                onFavorite={(item, isFavorite)=>this.onFavorite(item,isFavorite)}
             />
         )
     }
@@ -214,7 +217,7 @@ class TrendingTab extends Component {
                 // style={{backgroundColor:'red'}}
                 data={store.projectModes}
                 renderItem={data=>this._renderItem(data)}
-                keyExtractor={item => '' + (item.id||item.fullName)}
+                keyExtractor={item => '' + (item.item.id||item.item.fullName)}
                 // refreshing={store.isLoading}
                 // onRefresh={()=>this.loadData()}
                 refreshControl={
