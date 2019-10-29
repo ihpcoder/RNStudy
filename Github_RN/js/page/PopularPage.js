@@ -18,7 +18,8 @@ import NavigationBar from '../common/NavigationBar'
 import FavoriteDao from '../expand/dao/FavoriteDao'
 import {FLAG_STORAGE} from '../expand/dao/DataStore'
 import FavoriteUtil from '../util/FavoriteUtil'
-
+import EventTypes from '../util/EventTypes'
+import EventBus from 'react-native-event-bus'
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars';
 const THEME_COLOR = '#678';
@@ -82,6 +83,12 @@ class PopularTab extends Component {
             this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
         }
         this.loadData();
+        EventBus.getInstance().addListener(EventTypes.favorite_changed_popular,this.listener= ()=>{
+              this.loadData();
+          })
+        }
+    componentWillUnmount(){
+        EventBus.getInstance().removeListener(this.listener);
     }
     loadData(loadMore){
         const url = this.getFetchUrl(this.storeName);

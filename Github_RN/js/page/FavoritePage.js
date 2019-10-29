@@ -130,11 +130,21 @@ class FavoriteTab extends Component {
     onFavorite(item, isFavorite){
         FavoriteUtil.onFavorite(this.favoriteDao,item,isFavorite,this.storeName);
         this.loadData(false);
+        if(this.storeName===FLAG_STORAGE.flag_popular){
+          EventBus.getInstance().fireEvent(EventTypes.favorite_changed_popular,{
+
+          });
+        }else{
+          EventBus.getInstance().fireEvent(EventTypes.favorite_changed_trending,{
+
+          });
+        }
     }
     _renderPopularItem(data){
         const projectModel = data.item;
         return (
             <PopularItem
+                key={''+projectModel.item.id}
                 projectModel={projectModel}
                 onSelect={(callback)=>{
                     NavigationUtil.goPage({
@@ -173,7 +183,9 @@ class FavoriteTab extends Component {
                 data={store.projectModels}
                 refreshing={store.isLoading}
                 renderItem={data=>(this.storeName===FLAG_STORAGE.flag_popular?this._renderPopularItem(data):this._renderTrendingItem(data))}
-                keyExtractor={item=>(''+item.item.id||''+item.item.fullName)}
+                keyExtractor={item=>(
+                  ''+item.item.id||item.item.fullName
+                  )}
                 onRefresh={()=>this.loadData(true)}
             />
             <Toast

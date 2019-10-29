@@ -22,7 +22,8 @@ import NavigationBar from '../common/NavigationBar'
 import FavoriteDao from '../expand/dao/FavoriteDao'
 import {FLAG_STORAGE} from '../expand/dao/DataStore'
 import FavoriteUtil from '../util/FavoriteUtil'
-
+import EventBus from 'react-native-event-bus'
+import EventTypes from '../util/EventTypes'
 const URL = 'https://github.com/trending'
 const QUERY_STR = '?since=daily';
 const THEME_COLOR = '#678';
@@ -136,6 +137,9 @@ class TrendingTab extends Component {
     componentDidMount(){
         this.loadData();
         this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
+        EventBus.getInstance().addListener(EventTypes.favorite_changed_trending,this.listener= ()=>{
+            this.loadData();
+        })
         this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE,(timeSpan)=>{
             this.timeSpan = timeSpan;
             this.loadData();
@@ -145,7 +149,8 @@ class TrendingTab extends Component {
         if(this.timeSpanChangeListener){
             this.timeSpanChangeListener.remove();
         }
-    }
+        EventBus.getInstance().removeListener(this.listener); 
+      }
     loadData(loadMore){
         const url = this.getFetchUrl(this.storeName);
         const {onLoadTrendingData, onLoadMoreTrending} = this.props;

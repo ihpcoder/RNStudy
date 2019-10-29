@@ -124,7 +124,7 @@ class DynamicTabNavigator extends Component {
             onNavigationStateChange={(prevState,newState,action)=>{
                 EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
                     from: prevState.index,
-                    for: newState.index,
+                    to: newState.index,
                 })
             }}
         />;
