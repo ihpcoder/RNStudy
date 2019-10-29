@@ -13,7 +13,8 @@ import  MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import  Ionicons from 'react-native-vector-icons/Ionicons'
 import  Entypo from 'react-native-vector-icons/Entypo'
 import {connect} from 'react-redux'
-
+import EventBus from 'react-native-event-bus'
+import EventTypes from '../util/EventTypes'
 import PopularPage from '../page/PopularPage'
 import FavoritePage from '../page/FavoritePage'
 import MyPage from '../page/MyPage'
@@ -119,7 +120,14 @@ class DynamicTabNavigator extends Component {
 
     render(){
         const Tab = this._tabNavigator();
-        return <Tab />;
+        return <Tab 
+            onNavigationStateChange={(prevState,newState,action)=>{
+                EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
+                    from: prevState.index,
+                    for: newState.index,
+                })
+            }}
+        />;
     }
 };
 

@@ -5,6 +5,7 @@ const FAVORITE_KEY_PREFIX = 'favorite_';
 export default class FavoriteDao {
     constructor(flag) {//flag标记 存储的是趋势还是最热
         this.favoriteKey = FAVORITE_KEY_PREFIX + flag;
+        
     }
 
     saveFavoriteItem(key, value, callback) {
@@ -63,10 +64,12 @@ export default class FavoriteDao {
                                     items.push(JSON.parse(value));
                                 }
                             })
+                            resolve(items);
                         } catch (e) {
                             reject(e);
                         }
                     })
+
                 } else {
                     resolve(items);
                 }
