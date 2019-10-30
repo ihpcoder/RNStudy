@@ -1,10 +1,11 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import actions from '../action'
 import { connect } from 'react-redux';
@@ -12,141 +13,119 @@ import NavigationUtil from '../navigator/NaviagtionUtil'
 import NavigationBar from '../common/NavigationBar'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
-
+import { MORE_MENU } from '../common/MORE_MENU'
+import GlobalStyles from '../res/GlobalStyles'
+import ViewUtil from '../util/ViewUtil'
 const THEME_COLOR = '#678';
 
 export class MyPage extends Component {
-  getRightButton(){
-    return <View style={{flexDirection:'row'}}>
-      <TouchableOpacity onPress={()=>{
+  getRightButton() {
+    return <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity onPress={() => {
 
       }}>
-        <View style={{padding:5,maginRight:8}}>
+        <View style={{ padding: 5, maginRight: 8 }}>
           <Feather
             name={'search'}
             size={24}
-            style={{color:'white'}}
+            style={{ color: 'white' }}
           />
         </View>
       </TouchableOpacity>
     </View>
   }
   getLefteButton(callBack) {
-    return <TouchableOpacity 
-      style={{padding:8,paddingLeft:12}}
+    return <TouchableOpacity
+      style={{ padding: 8, paddingLeft: 12 }}
       onPress={callBack}>
-        <Ionicons
-          name={'ios-arrow-back'}
-          size={26}
-          style={{color:'white'}}
-        />
+      <Ionicons
+        name={'ios-arrow-back'}
+        size={26}
+        style={{ color: 'white' }}
+      />
     </TouchableOpacity>
   }
+  onClick(menu) {
 
+  }
+  getItem(menu){
+    return ViewUtil.getMenuItem(()=>this.onClick(menu),menu,THEME_COLOR);
+  }
   render() {
     let statusBar = {
       backgroundColor: THEME_COLOR,
-      barStyle:'default',
+      barStyle: 'default',
     }
     let navgationBar = <NavigationBar
       title={'我的'}
       statusBar={statusBar}
-      style={{backgroundColor:THEME_COLOR}}
+      style={{ backgroundColor: THEME_COLOR }}
       rightButton={this.getRightButton()}
-      // leftButton={this.getLefteButton(()=>{
-      //   // back
-      // })}
+      leftButton={this.getLefteButton()}
     />;
-    return(
-      <View style={styles.container}>
+    return (
+      <View style={GlobalStyles.root_container}>
         {navgationBar}
-        <Text style={styles.welcome}>MyPage</Text>
-          <Button 
-              title={'改变主题颜色'}
-              onPress={()=>{
-                this.props.onChangeTheme('blue');
-              }}/>
-              <Text style= {styles.text}
-                onPress={()=>{
-                    NavigationUtil.goPage(this.props,'DetailPage')
-                    }
-                }>
-                跳转到详情页
-            </Text>
-            <Text style= {styles.text}
-                onPress={()=>{
-                    NavigationUtil.goPage(this.props,'FetchDemoPage')
-                    }
-                }>
-                跳转到FetchDemoPage
-            </Text>
-            <Text style= {styles.text}
-                onPress={()=>{
-                    NavigationUtil.goPage(this.props,'AsyncStorageDemoPage')
-                    }
-                }>
-                AsyncStorageDemoPage
-            </Text>
-            <Text style= {styles.text}
-                onPress={()=>{
-                    NavigationUtil.goPage(this.props,'DataStoreDemoPage')
-                    }
-                }>
-                DataStoreDemoPage
-            </Text>
+        <ScrollView style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() => this.onClick(MORE_MENU.About)}
+          >
+            <View style={styles.about_left}>
+              <Ionicons
+                name={MORE_MENU.About.icon}
+                size={40}
+                style={{
+                  marginRight: 10,
+                  color: THEME_COLOR,
+                }}
+
+              />
+              <Text>GitHub Popular</Text>
+            </View>
+            <Ionicons
+              name={'ios-arrow-forward'}
+              size={16}
+              style={{
+                marginRight: 10,
+                alignSelf:'center',
+                color:THEME_COLOR
+              }}
+            />
+          </TouchableOpacity>
+          <View style={GlobalStyles.line}/>
+          {this.getItem(MORE_MENU.Tutorial)}
+          {/* 趋势管理 */}
+          <Text style={styles.groupTitle}>趋势管理</Text>
+          {this.getItem(MORE_MENU.Custom_Language)}
+          <View style={GlobalStyles.line} />
+          {this.getItem(MORE_MENU.Sort_Language)}
+
+          {/* 最热管理 */}
+          <Text style={styles.groupTitle}>最热管理</Text>
+          {this.getItem(MORE_MENU.Custom_Key)}
+          <View style={GlobalStyles.line} />
+          {this.getItem(MORE_MENU.Sort_Key)}
+          <View style={GlobalStyles.line} />
+          {this.getItem(MORE_MENU.Remove_Key)}
+
+          {/* 设置*/}
+          <Text style={styles.groupTitle}>设置</Text>
+          {this.getItem(MORE_MENU.Custom_Theme)}
+          <View style={GlobalStyles.line} />
+          {this.getItem(MORE_MENU.About_Author)}
+          <View style={GlobalStyles.line} />
+          {this.getItem(MORE_MENU.Feedback)}
+
+        </ScrollView>
       </View>
     )
   }
-
-
-
-    // render(){
-    //   const {navigation} = this.props;
-    //   return (
-    //     <View style={styles.container}>
-          // <Text style={styles.welcome}>MyPage</Text>
-          // <Button 
-          //     title={'改变主题颜色'}
-          //     onPress={()=>{
-          //       this.props.onChangeTheme('blue');
-          //     }}/>
-          //     <Text style= {styles.text}
-          //       onPress={()=>{
-          //           NavigationUtil.goPage(this.props,'DetailPage')
-          //           }
-          //       }>
-          //       跳转到详情页
-          //   </Text>
-          //   <Text style= {styles.text}
-          //       onPress={()=>{
-          //           NavigationUtil.goPage(this.props,'FetchDemoPage')
-          //           }
-          //       }>
-          //       跳转到FetchDemoPage
-          //   </Text>
-          //   <Text style= {styles.text}
-          //       onPress={()=>{
-          //           NavigationUtil.goPage(this.props,'AsyncStorageDemoPage')
-          //           }
-          //       }>
-          //       AsyncStorageDemoPage
-          //   </Text>
-          //   <Text style= {styles.text}
-          //       onPress={()=>{
-          //           NavigationUtil.goPage(this.props,'DataStoreDemoPage')
-          //           }
-          //       }>
-          //       DataStoreDemoPage
-          //   </Text>
-    //     </View>
-    //   );
-    // }
 };
-const mapStateToProps = state=>({
+const mapStateToProps = state => ({
 
 });
-const mapDispatchToProps = dispatch=> ({
+const mapDispatchToProps = dispatch => ({
   onChangeTheme: theme => dispatch(actions.onThemeChange(theme))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MyPage);
@@ -160,6 +139,26 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin:10,
+    margin: 10,
+  },
+  about_left:{
+    flexDirection:'row',
+    alignItems:'center',
+  },
+  item:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    height:90,
+    padding:10,
+    backgroundColor:'white',
+    alignItems:'center',
+  },
+  groupTitle:{
+    // backgroundColor:'white',
+    marginLeft:10,
+    marginTop:10,
+    marginBottom: 5,
+    fontSize: 12,
+    color:'gray'
   }
 });
