@@ -17,6 +17,7 @@ import { MORE_MENU } from '../common/MORE_MENU'
 import GlobalStyles from '../res/GlobalStyles'
 import ViewUtil from '../util/ViewUtil'
 import WebViewPage from './WebViewPage';
+import { FLAG_LANGUAGE } from '../expand/dao/LanguageDao';
 const THEME_COLOR = '#678';
 
 export class MyPage extends Component {
@@ -58,8 +59,20 @@ export class MyPage extends Component {
         RouteName='WebViewPage';
         params = {title:'教程',url:'https://github.com/ihpcoder/RNStudy'};
       }
+      break;
+      case MORE_MENU.Custom_Language:
+      case MORE_MENU.Custom_Key:
+      case MORE_MENU.Remove_Key:{
+        RouteName='CustomKeyPage';
+        params = {
+          isRemoveKey:  menu===MORE_MENU.Remove_Key?true:false,
+          flag:menu===MORE_MENU.Custom_Language?FLAG_LANGUAGE.flag_language:FLAG_LANGUAGE.flag_key,
+        }
+      }
+      break;
       default: break;
     }
+
     if(RouteName){
       NavigationUtil.goPage(params,RouteName);
     }

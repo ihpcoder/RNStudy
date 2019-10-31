@@ -13,7 +13,7 @@ import FetchDemoPage from '../page/FetchDemoPage'
 import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import DataStoreDemoPage from '../page/DataStoreDemoPage'
 import WebViewPage from '../page/WebViewPage'
-
+import CustomKeyPage from '../page/CustomKeyPage'
 export const rootCom = 'Init';// 设置根路由
 const InitNavigator = createStackNavigator({
     Welcome: {
@@ -43,6 +43,12 @@ const MainNavigator = createStackNavigator({
         screen:WebViewPage,
         navigationOptions:{
             header:null
+        }
+    },
+    CustomKeyPage:{
+        screen:CustomKeyPage,
+        navigationOptions:{
+            header:null,
         }
     }
 });

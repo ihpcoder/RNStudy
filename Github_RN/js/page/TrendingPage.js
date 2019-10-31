@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import actions from '../action/index'
 import NavigationUtil from '../navigator/NaviagtionUtil'
+import ArrayUtil from '../util/ArrayUtil'
 import {
   StyleSheet,
   View,
@@ -98,7 +99,7 @@ class TrendingPage extends Component {
     _tabNav(){
         const {languages} = this.props;
         if(languages.length>0){
-            if(!this.tabNav||this.preLanguages!==languages){
+            if(!this.tabNav||ArrayUtil.isEquArray(this.preLanguages,languages)){
             this.preLanguages = languages;
             this.tabNav = createAppContainer(createMaterialTopTabNavigator(this._getTabs(),{
                     tabBarOptions:{
