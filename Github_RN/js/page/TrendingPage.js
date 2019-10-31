@@ -24,27 +24,32 @@ import {FLAG_STORAGE} from '../expand/dao/DataStore'
 import FavoriteUtil from '../util/FavoriteUtil'
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
+import { FLAG_LANGUAGE } from '../expand/dao/LanguageDao';
 const URL = 'https://github.com/trending'
 const QUERY_STR = '?since=daily';
 const THEME_COLOR = '#678';
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE';
 
 
-export default class TrendingPage extends Component {
+class TrendingPage extends Component {
     constructor(props){
         super(props);
-        this.tabNames= ['All','C','C#','PHP','TypeScript','JavaScript'];
+        this.preLanguages = [];
+        this.props.onLoadLanguage(FLAG_LANGUAGE.flag_language);
         this.state={
             timeSpan: TimeSpans[0],
         }
     }
     _getTabs(){
         const tabs = {};
-        this.tabNames.forEach((item,index)=>{
-            tabs[`tab${index}`] = {
-                screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item}/>,
-                navigationOptions:{
-                    title:item
+        const {languages} = this.props;
+        languages.forEach((item,index)=>{
+            if(item.checked){
+                tabs[`tab${index}`] = {
+                    screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name}/>,
+                    navigationOptions:{
+                        title:item.name
+                    }
                 }
             }
         });
@@ -91,27 +96,31 @@ export default class TrendingPage extends Component {
         />
     }
     _tabNav(){
-        if(!this.tabNav){
-          this.tabNav = createAppContainer(createMaterialTopTabNavigator(this._getTabs(),{
-                tabBarOptions:{
-                    tabStyle:styles.tabStyle,
-                    upperCaseLabel:false,
-                    scrollEnabled:true,
-                    style:{backgroundColor:'#678'},
-                    indicatorStyle:styles.indicatorStyle,
-                    labelStyle:styles.labelStyle,
-                }
-            }));
+        const {languages} = this.props;
+        if(languages.length>0){
+            if(!this.tabNav||this.preLanguages!==languages){
+            this.preLanguages = languages;
+            this.tabNav = createAppContainer(createMaterialTopTabNavigator(this._getTabs(),{
+                    tabBarOptions:{
+                        tabStyle:styles.tabStyle,
+                        upperCaseLabel:false,
+                        scrollEnabled:true,
+                        style:{backgroundColor:'#678'},
+                        indicatorStyle:styles.indicatorStyle,
+                        labelStyle:styles.labelStyle,
+                    }
+                }));
+            }
         }
         return this.tabNav;
     }
     render(){
+        const {languages} = this.props;
         let statusBar = {
             backgroundColor: THEME_COLOR,
             barStyle:'light-content',
         }
         let navgarionBar = <NavigationBar
-            // title={'趋势'}
             titleView={this.renderTitleView()}
             statusBar={statusBar}
             style={{backgroundColor:THEME_COLOR}}
@@ -119,13 +128,23 @@ export default class TrendingPage extends Component {
         const AppContainer = this._tabNav();
       return <View style={{flex:1,marginTop:0}}>
             {navgarionBar}
-            <AppContainer />
+            {languages.length>0?<AppContainer />:null}
+            
             {this.renderTrendingDialog()}
       </View>
       
       
     }
 };
+const mapTrendingPageStateToProps = state => ({
+    languages: state.language.languages,
+});
+const mapTrendingPageDispatchToProps = dispatch => ({
+    onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag)),
+});
+export default connect(mapTrendingPageStateToProps, mapTrendingPageDispatchToProps)(TrendingPage);
+
+
 const pageSize = 10;
 class TrendingTab extends Component {
     constructor(props){
@@ -261,7 +280,6 @@ class TrendingTab extends Component {
 };
 
 const mapStateToProps = state=>({
-    nav:state.nav,
     trending: state.trending
 
 });

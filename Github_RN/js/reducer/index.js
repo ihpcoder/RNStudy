@@ -3,6 +3,7 @@ import theme from './theme'
 import popular from './popular'
 import trending from './trending'
 import favorite from './favorite'
+import language from './language'
 import AppNavigator,{rootCom}  from '../navigator/AppNavigator';
 
 
@@ -25,6 +26,7 @@ const index = combineReducers({
     popular,
     trending,
     favorite,
+    language,
 })
 export default index;
 
