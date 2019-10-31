@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     },
     navBar:{
         // display
-        flex:0,
         flexWrap:'nowrap',
         flexDirection:'row',
         alignItems:'center',
@@ -90,26 +89,17 @@ const styles = StyleSheet.create({
         height:Platform.OS==='ios' ? NAV_BAR_HEIGHT_IOS : NAV_BAR_HEIGHT_ANDROID,
     },
     navBarTitleContainer:{
-        // alignItems:'center',
-        // justifyContent:"center",
-        // backgroundColor:'blue',
-        flexShrink:1,
-    },
-    navBarButton:{
-        // backgroundColor:'blue',
-        // alignItems:'center',
-        // justifyContent:'center',
-        // position:'absolute',
-        // left:40,
-        // right:40,
-        // top:0,
-        // bottom:0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        left: 40,
+        top: 0,
+        right: 40,
+        bottom: 0
     },
     title:{
         fontSize:20,
         color: 'white',
-        alignSelf:'center',
-        // backgroundColor:'red',
     },
     statusBar:{
         height: Platform.OS==='ios'?STATUS_BAR_HEIGHT:0,

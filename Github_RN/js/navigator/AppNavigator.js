@@ -12,7 +12,7 @@ import DetailPage from '../page/DetailPage'
 import FetchDemoPage from '../page/FetchDemoPage'
 import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import DataStoreDemoPage from '../page/DataStoreDemoPage'
-
+import WebViewPage from '../page/WebViewPage'
 
 export const rootCom = 'Init';// 设置根路由
 const InitNavigator = createStackNavigator({
@@ -39,22 +39,10 @@ const MainNavigator = createStackNavigator({
             header:null
         }
     },
-    FetchDemoPage:{
-        screen: FetchDemoPage,
+    WebViewPage:{
+        screen:WebViewPage,
         navigationOptions:{
-            title: 'FetchDemoPage'
-        }
-    },
-    AsyncStorageDemoPage:{
-        screen: AsyncStorageDemoPage,
-        navigationOptions:{
-            title:'AsyncStorageDemoPage',
-        }
-    },
-    DataStoreDemoPage:{
-        screen: DataStoreDemoPage,
-        navigationOptions:{
-            title: 'DataStoreDemoPage'
+            header:null
         }
     }
 });

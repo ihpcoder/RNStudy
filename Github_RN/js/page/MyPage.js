@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { MORE_MENU } from '../common/MORE_MENU'
 import GlobalStyles from '../res/GlobalStyles'
 import ViewUtil from '../util/ViewUtil'
+import WebViewPage from './WebViewPage';
 const THEME_COLOR = '#678';
 
 export class MyPage extends Component {
@@ -46,7 +47,22 @@ export class MyPage extends Component {
     </TouchableOpacity>
   }
   onClick(menu) {
-
+    let RouteName,params = {};
+    switch(menu){
+      case MORE_MENU.Tutorial:{
+        RouteName='WebViewPage';
+        params = {title:'教程',url:'https://github.com/ihpcoder/RNStudy'};
+      }
+        break;
+      case MORE_MENU.About:{
+        RouteName='WebViewPage';
+        params = {title:'教程',url:'https://github.com/ihpcoder/RNStudy'};
+      }
+      default: break;
+    }
+    if(RouteName){
+      NavigationUtil.goPage(params,RouteName);
+    }
   }
   getItem(menu){
     return ViewUtil.getMenuItem(()=>this.onClick(menu),menu,THEME_COLOR);
