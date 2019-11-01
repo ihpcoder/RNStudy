@@ -21,6 +21,7 @@ import FavoriteUtil from '../util/FavoriteUtil'
 import EventTypes from '../util/EventTypes'
 import EventBus from 'react-native-event-bus'
 import { FLAG_LANGUAGE } from '../expand/dao/LanguageDao';
+import ArrayUtil from '../util/ArrayUtil';
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars';
 const THEME_COLOR = '#678';
@@ -28,22 +29,29 @@ const THEME_COLOR = '#678';
 class PopularPage extends Component {
     constructor(props) {
         super(props);
+        
+    }
+    componentDidMount(){
         this.props.onLoadLanguage(FLAG_LANGUAGE.flag_key);
     }
     _getTabs() {
-        const tabs = {};
         const keys = this.props.keys;
-        keys.forEach((item, index) => {
-            if (item.checked) {
-                tabs[`tab${index}`] = {
-                    screen: props => <PopularTabPage {...props} tabLabel={item.name} />,
-                    navigationOptions: {
-                        title: item.name
+        if(!this.tabs||!ArrayUtil.isEquArray(keys,this.preLanguages)){
+            this.tabs = {};
+            this.preLanguages = keys;
+            keys.forEach((item, index) => {
+                if (item.checked) {
+                   this.tabs[`tab${index}`] = {
+                        screen: props => <PopularTabPage {...props} tabLabel={item.name} />,
+                        navigationOptions: {
+                            title: item.name
+                        }
                     }
                 }
-            }
-        });
-        return tabs;
+            });
+        }
+        return this.tabs;
+
     }
 
     render() {
@@ -65,7 +73,8 @@ class PopularPage extends Component {
                 style: { backgroundColor: '#678' },
                 indicatorStyle: styles.indicatorStyle,
                 labelStyle: styles.labelStyle,
-            }
+            },
+            lazy: true,
         }):null;
         const AppContainer = TabNavigator?createAppContainer(TabNavigator):null;
         return <View style={{ flex: 1, marginTop: 0 }}>

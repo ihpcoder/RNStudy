@@ -99,7 +99,7 @@ class TrendingPage extends Component {
     _tabNav(){
         const {languages} = this.props;
         if(languages.length>0){
-            if(!this.tabNav||ArrayUtil.isEquArray(this.preLanguages,languages)){
+            if(!this.tabNav||!ArrayUtil.isEquArray(this.preLanguages,languages)){
             this.preLanguages = languages;
             this.tabNav = createAppContainer(createMaterialTopTabNavigator(this._getTabs(),{
                     tabBarOptions:{
@@ -109,7 +109,8 @@ class TrendingPage extends Component {
                         style:{backgroundColor:'#678'},
                         indicatorStyle:styles.indicatorStyle,
                         labelStyle:styles.labelStyle,
-                    }
+                    },
+                    lazy: true,
                 }));
             }
         }
@@ -282,7 +283,6 @@ class TrendingTab extends Component {
 
 const mapStateToProps = state=>({
     trending: state.trending
-
 });
 const mapDispatchToProps = dispatch=>({
   onLoadTrendingData: (storeName,url,pageSize,favoriteDao)=>dispatch(actions.onLoadTrendingData(storeName,url,pageSize,favoriteDao)),

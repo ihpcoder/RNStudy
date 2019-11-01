@@ -42,12 +42,12 @@ export class CustomKeyPage extends Component {
         return null;
     }
     componentDidMount(){
-        if(CustomKeyPage._keys(this.props).length===0){
+        if(CustomKeyPage._keys(this.props,false).length===0){
             let {onLoadLanguage} = this.props;
             onLoadLanguage(this.params.flag);
         }
         this.setState({
-            keys:CustomKeyPage._keys(this.props),
+            keys:CustomKeyPage._keys(this.props,false),
         })
     }
     getRightButton(title) {
@@ -63,14 +63,19 @@ export class CustomKeyPage extends Component {
     }
     onSave(){
         if(this.changValues.length>0){
-            Alert.alert('提示','是否确认保存修改？',
+            const text = this.isRemoveKey?'是否确认删除？':'是否确认保存？';
+            Alert.alert('提示',text,
             [
                {text:'否',onPress:()=>{
                    NavigationUtil.goBack(this.props.navigation);
                }} ,
                {
                    text:'是',onPress:()=>{
-                       this.doSave();
+                       if(this.isRemoveKey){
+                        this.doRemove();
+                       }else{
+                        this.doSave();
+                       }
                    }
                }
             ])
@@ -78,9 +83,19 @@ export class CustomKeyPage extends Component {
             NavigationUtil.goBack(this.props.navigation);
         }
     }
+    doRemove(){
+        let keys ;
+        for(let i = 0, l=this.changValues.length; i<l; i++){
+            ArrayUtil.remove(keys = CustomKeyPage._keys(this.props,true),this.changValues[i],'name');
+        }
+        this.languageDao.save([...keys]);
+        this.props.onLoadLanguage(this.params.flag);
+        NavigationUtil.goBack(this.props.navigation);
+    }
     doSave(){
         let keys = [];
-        this.languageDao.save(this.state.keys);
+        this.languageDao.save([...this.state.keys]);
+        this.props.onLoadLanguage(this.params.flag);
         NavigationUtil.goBack(this.props.navigation);
     }
     onClick(data,index){
@@ -137,7 +152,13 @@ export class CustomKeyPage extends Component {
         const { flag, isRemoveKey } = props.navigation.state.params;
         let key = flag === FLAG_LANGUAGE.flag_key ? 'keys' : 'languages';
         if (isRemoveKey && !original) {
-
+            // 如果state不等于nullkeys为空 则从props中取
+            return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map((item)=>{
+                return {
+                    ...item,
+                    checked : false,
+                }
+            })
         } else {
             return props.language[key];
         }
