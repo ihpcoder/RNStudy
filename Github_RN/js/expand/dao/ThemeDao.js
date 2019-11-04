@@ -22,7 +22,7 @@ export default class ThemeDao {
     
     save(objectData){
         AsyncStorage.setItem(ThemeKey,objectData,(e)=>{
-
+            console.log(e);
         });
     }
 }

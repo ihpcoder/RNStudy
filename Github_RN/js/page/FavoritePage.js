@@ -150,10 +150,12 @@ class FavoriteTab extends Component {
     }
     _renderPopularItem(data){
         const projectModel = data.item;
-        return (
+        const {theme} = this.props;
+         return (
             <PopularItem
                 key={''+projectModel.item.id}
                 projectModel={projectModel}
+                theme={theme}
                 onSelect={(callback)=>{
                     NavigationUtil.goPage({
                         ...this.props,
@@ -168,9 +170,11 @@ class FavoriteTab extends Component {
     }
     _renderTrendingItem(data){
       const item = data.item;
+      const {theme} = this.props;
         return (
             <TrendingItem
                 projectModel={item}
+                theme={theme}
                 onSelect={(callback)=>{
                     NavigationUtil.goPage({
                         projectModel:item,

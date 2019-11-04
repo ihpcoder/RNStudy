@@ -211,9 +211,11 @@ class TrendingTab extends Component {
     }
     _renderItem(data){
         const item = data.item;
+        const {theme} = this.props;
         return (
             <TrendingItem
                 projectModel={item}
+                theme={theme}
                 onSelect={(callback)=>{
                     NavigationUtil.goPage({
                         ...this.props,

@@ -150,10 +150,12 @@ class PopularTab extends Component {
     }
     _renderItem(data) {
         const projectModel = data.item;
+        const {theme} = this.props;
         return (
             <PopularItem
                 // key={item.item.id}
                 projectModel={projectModel}
+                theme={theme}
                 onSelect={(callback) => {
                     NavigationUtil.goPage({
                         ...this.props,

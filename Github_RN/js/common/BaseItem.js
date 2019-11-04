@@ -57,7 +57,7 @@ export default class PopularItem extends React.Component{
             <FontAwesome
                 name={this.state.isFavorite? 'star': 'star-o'}
                 size={26}
-                style={{color:'#678'}}
+                style={{color:this.props.theme.themeColor}}
             />
         </TouchableOpacity>
     }

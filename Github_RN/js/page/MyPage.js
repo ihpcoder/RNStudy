@@ -105,7 +105,7 @@ export class MyPage extends Component {
       statusBar={statusBar}
       style={theme.styles.navBar}
       rightButton={this.getRightButton()}
-      leftButton={this.getLefteButton()}
+      // leftButton={this.getLefteButton()}
     />;
     return (
       <View style={GlobalStyles.root_container}>
