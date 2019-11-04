@@ -90,7 +90,8 @@ class DetailPage extends Component {
     }
   }
   render() {
-    const { nav, detail } = this.props;
+    const { nav, detail} = this.props;
+    const {theme} = this.params;
 
     // let statusBar = {
     //   backgroundColor: THEME_COLOR,
@@ -100,7 +101,7 @@ class DetailPage extends Component {
     let navgarionBar = <NavigationBar
       title={this.state.title}
       // statusBar={statusBar}
-      style={{ backgroundColor: THEME_COLOR }}
+      style={theme.styles.navBar}
       titleLayoutStyle={titleLayoutStyle}
       leftButton={
         ViewUtil.getLeftBackButton(() => this.goBack())

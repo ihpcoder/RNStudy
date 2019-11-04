@@ -15,7 +15,7 @@ import NavigationBar from '../common/NavigationBar'
 import CheckBox from 'react-native-check-box'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { MORE_MENU } from '../common/MORE_MENU'
-import GlobalStyles from '../res/GlobalStyles'
+import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil'
 import WebViewPage from './WebViewPage';
 import LanguageDao, { FLAG_LANGUAGE } from '../expand/dao/LanguageDao';
@@ -165,12 +165,13 @@ export class CustomKeyPage extends Component {
     }
 
     render() {
+        const {theme} = this.params;
         let title = this.isRemoveKey? '标签移除':'自定义标签';
         title = this.params.flag===FLAG_LANGUAGE.flag_language?'自定义语言':title;
         let rightButtonTitle = this.isRemoveKey?'移除':'保存';
         let navgationBar = <NavigationBar
             title={title}
-            style={{ backgroundColor: THEME_COLOR }}
+            style={theme.styles.navBar}
             rightButton={this.getRightButton(rightButtonTitle)}
             leftButton={ViewUtil.getLeftBackButton(()=>{
                 if(this.changValues.length){

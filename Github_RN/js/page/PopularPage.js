@@ -36,13 +36,14 @@ class PopularPage extends Component {
     }
     _getTabs() {
         const keys = this.props.keys;
+        const {theme} = this.props;
         if(!this.tabs||!ArrayUtil.isEquArray(keys,this.preLanguages)){
             this.tabs = {};
             this.preLanguages = keys;
             keys.forEach((item, index) => {
                 if (item.checked) {
                    this.tabs[`tab${index}`] = {
-                        screen: props => <PopularTabPage {...props} tabLabel={item.name} />,
+                        screen: props => <PopularTabPage {...props} tabLabel={item.name} theme={theme}/>,
                         navigationOptions: {
                             title: item.name
                         }
@@ -55,22 +56,22 @@ class PopularPage extends Component {
     }
 
     render() {
-        const { keys } = this.props;
+        const { keys,theme } = this.props;
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
         }
         let navgarionBar = <NavigationBar
             title={'最热'}
             statusBar={statusBar}
-            style={{ backgroundColor: THEME_COLOR }}
+            style={theme.styles.navBar}
         />
         const TabNavigator = keys.length > 0 ? createMaterialTopTabNavigator(this._getTabs(), {
             tabBarOptions: {
                 tabStyle: styles.tabStyle,
                 upperCaseLabel: false,
                 scrollEnabled: true,
-                style: { backgroundColor: '#678' },
+                style: { backgroundColor: theme.themeColor },
                 indicatorStyle: styles.indicatorStyle,
                 labelStyle: styles.labelStyle,
             },
@@ -85,6 +86,7 @@ class PopularPage extends Component {
 };
 const mapPopularPageStateToProps = state => ({
     keys: state.language.keys,
+    theme:state.theme.theme,
 });
 const mapPopularPageDispatchToProps = dispatch => ({
     onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag)),
@@ -154,6 +156,7 @@ class PopularTab extends Component {
                 projectModel={projectModel}
                 onSelect={(callback) => {
                     NavigationUtil.goPage({
+                        ...this.props,
                         projectModel: projectModel,
                         flag: FLAG_STORAGE.flag_popular,
                         callback,

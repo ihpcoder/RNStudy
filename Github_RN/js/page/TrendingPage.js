@@ -43,11 +43,11 @@ class TrendingPage extends Component {
     }
     _getTabs(){
         const tabs = {};
-        const {languages} = this.props;
+        const {languages,theme} = this.props;
         languages.forEach((item,index)=>{
             if(item.checked){
                 tabs[`tab${index}`] = {
-                    screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name}/>,
+                    screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} theme={theme}/>,
                     navigationOptions:{
                         title:item.name
                     }
@@ -97,7 +97,7 @@ class TrendingPage extends Component {
         />
     }
     _tabNav(){
-        const {languages} = this.props;
+        const {languages,theme} = this.props;
         if(languages.length>0){
             if(!this.tabNav||!ArrayUtil.isEquArray(this.preLanguages,languages)){
             this.preLanguages = languages;
@@ -106,7 +106,7 @@ class TrendingPage extends Component {
                         tabStyle:styles.tabStyle,
                         upperCaseLabel:false,
                         scrollEnabled:true,
-                        style:{backgroundColor:'#678'},
+                        style:{backgroundColor:theme.themeColor},
                         indicatorStyle:styles.indicatorStyle,
                         labelStyle:styles.labelStyle,
                     },
@@ -117,21 +117,20 @@ class TrendingPage extends Component {
         return this.tabNav;
     }
     render(){
-        const {languages} = this.props;
+        const {languages,theme} = this.props;
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle:'light-content',
         }
         let navgarionBar = <NavigationBar
             titleView={this.renderTitleView()}
             statusBar={statusBar}
-            style={{backgroundColor:THEME_COLOR}}
+            style={theme.styles.navBar}
         />
         const AppContainer = this._tabNav();
       return <View style={{flex:1,marginTop:0}}>
             {navgarionBar}
             {languages.length>0?<AppContainer />:null}
-            
             {this.renderTrendingDialog()}
       </View>
       
@@ -140,6 +139,7 @@ class TrendingPage extends Component {
 };
 const mapTrendingPageStateToProps = state => ({
     languages: state.language.languages,
+    theme: state.theme.theme,
 });
 const mapTrendingPageDispatchToProps = dispatch => ({
     onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag)),
@@ -216,6 +216,7 @@ class TrendingTab extends Component {
                 projectModel={item}
                 onSelect={(callback)=>{
                     NavigationUtil.goPage({
+                        ...this.props,
                         projectModel:item,
                         flag:FLAG_STORAGE.flag_trending,
                         callback,

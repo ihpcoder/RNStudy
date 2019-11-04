@@ -14,7 +14,7 @@ import NavigationBar from '../common/NavigationBar'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { MORE_MENU } from '../common/MORE_MENU'
-import GlobalStyles from '../res/GlobalStyles'
+import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil'
 import WebViewPage from './WebViewPage';
 import { FLAG_LANGUAGE } from '../expand/dao/LanguageDao';
@@ -78,25 +78,32 @@ export class MyPage extends Component {
         }
       }
       break;
+      case MORE_MENU.Custom_Theme:{
+        const {onShowCustomThemeView} = this.props;
+        onShowCustomThemeView(true);
+      }
+      break;
       default: break;
     }
 
     if(RouteName){
-      NavigationUtil.goPage(params,RouteName);
+      NavigationUtil.goPage({...params,...this.props},RouteName);
     }
   }
   getItem(menu){
-    return ViewUtil.getMenuItem(()=>this.onClick(menu),menu,THEME_COLOR);
+    const {theme} = this.props;
+    return ViewUtil.getMenuItem(()=>this.onClick(menu),menu,theme.themeColor);
   }
   render() {
+    const {theme} = this.props;
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'default',
     }
     let navgationBar = <NavigationBar
       title={'我的'}
       statusBar={statusBar}
-      style={{ backgroundColor: THEME_COLOR }}
+      style={theme.styles.navBar}
       rightButton={this.getRightButton()}
       leftButton={this.getLefteButton()}
     />;
@@ -114,7 +121,7 @@ export class MyPage extends Component {
                 size={40}
                 style={{
                   marginRight: 10,
-                  color: THEME_COLOR,
+                  color: theme.themeColor,
                 }}
 
               />
@@ -126,7 +133,7 @@ export class MyPage extends Component {
               style={{
                 marginRight: 10,
                 alignSelf:'center',
-                color:THEME_COLOR
+                color:theme.themeColor
               }}
             />
           </TouchableOpacity>
@@ -160,10 +167,11 @@ export class MyPage extends Component {
   }
 };
 const mapStateToProps = state => ({
-
+  theme: state.theme.theme,
 });
 const mapDispatchToProps = dispatch => ({
-  onChangeTheme: theme => dispatch(actions.onThemeChange(theme))
+  onChangeTheme: theme => dispatch(actions.onThemeChange(theme)),
+  onShowCustomThemeView: show=>dispatch(actions.onShowCustomThemeView(show)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MyPage);
 

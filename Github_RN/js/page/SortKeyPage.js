@@ -16,7 +16,7 @@ import  SortableListView from 'react-native-sortable-listview'
 import NavigationUtil from '../navigator/NaviagtionUtil'
 import NavigationBar from '../common/NavigationBar'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import GlobalStyles from '../res/GlobalStyles'
+import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil'
 import LanguageDao, { FLAG_LANGUAGE } from '../expand/dao/LanguageDao';
 import ArrayUtil from '../util/ArrayUtil';
@@ -120,11 +120,12 @@ export class SortKeyPage extends Component {
     }
 
     render() {
+        const {theme} = this.params;
         let title = this.params.flag===FLAG_LANGUAGE.flag_language?'语言排序':'标签排序';
         let rightButtonTitle = '保存';
         let navgationBar = <NavigationBar
             title={title}
-            style={{ backgroundColor: THEME_COLOR }}
+            style={theme.styles.navBar}
             rightButton={this.getRightButton(rightButtonTitle)}
             leftButton={ViewUtil.getLeftBackButton(()=>{
                 if(!ArrayUtil.isEquArray(SortKeyPage._keys(this.props),this.state.checkedArray)){

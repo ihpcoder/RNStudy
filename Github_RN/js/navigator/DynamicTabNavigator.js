@@ -113,7 +113,7 @@ class DynamicTabNavigator extends Component {
         PopularPage.navigationOptions.tabBarLabel='最新';//动态配置显示tab属性
         return this.tabs = createAppContainer(createBottomTabNavigator(tabs,{
             tabBarComponent:props => {
-                return <TabBarComponent theme={this.props.theme} {...props}/>
+                return <TabBarComponent theme={this.props.theme.themeColor} {...props}/>
             }
         }));
     }

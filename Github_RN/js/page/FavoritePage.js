@@ -28,7 +28,7 @@ const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars';
 const THEME_COLOR = '#678';
 const {height, width} = Dimensions.get('window');
-export default class FavoritePage extends Component {
+class FavoritePage extends Component {
     constructor(props){
         super(props);
         this.tabNames= ['最热','趋势'];
@@ -47,24 +47,25 @@ export default class FavoritePage extends Component {
     // }
     
     render(){
+        const {theme} = this.props;
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle:'light-content',
         }
         let navgarionBar = <NavigationBar
             title={'收藏'}
             statusBar={statusBar}
-            style={{backgroundColor:THEME_COLOR}}
+            style={theme.styles.navBar}
         />
         const TabNavigator=createMaterialTopTabNavigator({
           'Popular': {
-            screen: props=><FavoriteTabPage {...props} flag = {FLAG_STORAGE.flag_popular}/> ,
+            screen: props=><FavoriteTabPage {...props} flag = {FLAG_STORAGE.flag_popular} theme={theme}/> ,
             navigationOptions:{
               title: '最热'
             }
           },
           'Trending': {
-            screen: props=><FavoriteTabPage {...props} flag = {FLAG_STORAGE.flag_trending}/> ,
+            screen: props=><FavoriteTabPage {...props} flag = {FLAG_STORAGE.flag_trending} theme={theme}/> ,
             navigationOptions:{
               title: '趋势'
             }
@@ -74,7 +75,7 @@ export default class FavoritePage extends Component {
                 tabStyle:styles.tabStyle,
                 upperCaseLabel:false,
                 // scrollEnabled:true,
-                style:{backgroundColor:'#678'},
+                style:{backgroundColor:theme.themeColor},
                 indicatorStyle:styles.indicatorStyle,
                 labelStyle:styles.labelStyle,
             }
@@ -88,6 +89,13 @@ export default class FavoritePage extends Component {
       
     }
 };
+const mapFacoritePageStateToProps = state=>({
+    theme: state.theme.theme
+})
+export default connect(mapFacoritePageStateToProps)(FavoritePage);
+
+
+
 const pageSize = 10;
 class FavoriteTab extends Component {
     constructor(props){
@@ -148,6 +156,7 @@ class FavoriteTab extends Component {
                 projectModel={projectModel}
                 onSelect={(callback)=>{
                     NavigationUtil.goPage({
+                        ...this.props,
                         projectModel:projectModel,
                         flag:this.storeName,
                         callback,
@@ -198,8 +207,8 @@ class FavoriteTab extends Component {
 };
 
 const mapStateToProps = state=>({
-    favorite: state.favorite
-
+    favorite: state.favorite,
+    
 });
 const mapDispatchToProps = dispatch=>({
     onLoadFavoriteData: (flag,isLoading)=>dispatch(actions.onLoadFavoriteData(flag,isLoading)),
