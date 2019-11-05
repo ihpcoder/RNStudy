@@ -6,7 +6,7 @@ const defaultState = {
     isLoading: false,
     projectModels: [],
     hideLoadingMore: true,
-    showBottomButton: false,
+    showBottomButton: true,
 };
 /**
  * search:{
@@ -39,6 +39,8 @@ export default function onAction(state = defaultState, action) {
                 ...state,
                 isLoading: true,
                 hideLoadingMore: true,
+                showBottomButton: false,
+                showText:'取消',
             }
         }
         case Types.SEARCH_REFRESH_SUCCESS:{
@@ -46,39 +48,41 @@ export default function onAction(state = defaultState, action) {
                 ...state,
                 items:action.items,
                 isLoading: false,
+                showBottomButton: action.showBottomButton,
                 hideLoadingMore: action.hideLoadingMore,
                 projectModels: action.projectModels,
                 pageIndex: action.pageIndex,
+                showText: '搜索',
+                inputKey: action.inputKey,
             }
         }
-        case Types.POPULAR_REFRESH_FAIL:{
+        case Types.SEARCH_REFRESH_FAIL:{
             return{
                 ...state,
-                [action.storeName]:{
-                    ...state[action.storeName],
-                    isLoading: false,
-                }
+                isLoading: false,
+                showText: '搜索',
             }
         }
-        case Types.POPULAR_LOAD_MORE_SUCCESS:{
-            return {
+        case Types.SEARCH_CANCEL:{
+            return{
                 ...state,
-                [action.storeName]:{
-                    ...state[action.storeName],
-                    projectModels: action.projectModels,
-                    hideLoadingMore:false,
-                    pageIndex: action.pageIndex
-                }
+                isLoading: false,
+                showText: '搜索',
             }
         }
-        case Types.POPULAR_LOAD_MORE_FAIL: {
+        case Types.SEARCH_LOAD_MORE_SUCCESS:{
             return {
                 ...state,
-                [action.storeName]:{
-                    ...state[action.storeName],
-                    hideLoadingMore:true,
-                    pageIndex: action.pageIndex
-                }
+                projectModels: action.projectModels,
+                hideLoadingMore:false,
+                pageIndex: action.pageIndex,
+            }
+        }
+        case Types.SEARCH_LOAD_MORE_FAIL: {
+            return {
+                ...state,
+                hideLoadingMore:true,
+                pageIndex: action.pageIndex,
             }
         }
         default:

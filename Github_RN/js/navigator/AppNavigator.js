@@ -15,6 +15,7 @@ import DataStoreDemoPage from '../page/DataStoreDemoPage'
 import WebViewPage from '../page/WebViewPage'
 import CustomKeyPage from '../page/CustomKeyPage'
 import SortKeyPage from '../page/SortKeyPage'
+import SearchPage from '../page/SearchPage'
 export const rootCom = 'Init';// 设置根路由
 const InitNavigator = createStackNavigator({
     Welcome: {
@@ -56,6 +57,12 @@ const MainNavigator = createStackNavigator({
         screen:SortKeyPage,
         navigationOptions:{
             header:null
+        }
+    },
+    SearchPage:{
+        screen:SearchPage,
+        navigationOptions:{
+            header:null,
         }
     }
 });

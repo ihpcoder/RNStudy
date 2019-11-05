@@ -2,6 +2,7 @@ import Types from '../types'
 import ArrayUtil from '../../util/ArrayUtil'
 import {handleData,handleFail, _projectModels,doCallBack} from '../ActionUtil'
 import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore';
+import Utils from '../../util/Utils';
 const API_URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars';
 const CACEL_TOKENS = [];
@@ -16,14 +17,6 @@ function hasCancel(token,isRemove){
         return true;
     }
     return false;
-}
-function checkKeysIsExist(keys,key){
-    for (let i=0,l=keys.length; i<l; i++){
-        if (key.toLowerCase() === keys[i].nama.toLowerCase()) {
-            return true;
-        }
-        return false;
-    }
 }
 /**
  * 获取最热数据的异步action
@@ -41,7 +34,7 @@ export function onSearch(inputKey,pageSize,token,favorireDao,popularKeys,callbac
             if(responseData&&responseData.items&&responseData.items.length>0){
                 let items = responseData.items;
                 handleData(Types.SEARCH_REFRESH_SUCCESS,dispatch,{data: items},pageSize,favorireDao,{
-                    showBottomButton: !checkKeysIsExist(popularKeys,inputKey),
+                    showBottomButton: !Utils.checkKeysIsExist(popularKeys,inputKey),
                     inputKey,
                 });
             }else{
