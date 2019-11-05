@@ -200,7 +200,7 @@ class TrendingTab extends Component {
             store = {
                 items:[],
                 isLoading: false,
-                projectModes: [],//要显示的数据
+                projectModels: [],//要显示的数据
                 hideLoadingMore: true,//默认隐藏还在更多
             }
         }
@@ -244,7 +244,7 @@ class TrendingTab extends Component {
             <View style={styles.container}>
             <FlatList
                 // style={{backgroundColor:'red'}}
-                data={store.projectModes}
+                data={store.projectModels}
                 renderItem={data=>this._renderItem(data)}
                 keyExtractor={item => '' + (item.item.id||item.item.fullName)}
                 // refreshing={store.isLoading}

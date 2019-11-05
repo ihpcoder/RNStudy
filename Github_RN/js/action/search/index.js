@@ -1,32 +1,71 @@
 import Types from '../types'
-import {handleData,handleFail, _projectModels} from '../ActionUtil'
+import ArrayUtil from '../../util/ArrayUtil'
+import {handleData,handleFail, _projectModels,doCallBack} from '../ActionUtil'
 import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore';
 const API_URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars';
+const CACEL_TOKENS = [];
+
+
 function getFetchUrl(key) {
     return API_URL + key + QUERY_STR;
 }
-
+function hasCancel(token,isRemove){
+    if(CACEL_TOKENS.includes(token)){
+        isRemove&&ArrayUtil.remove(CACEL_TOKENS,token);
+        return true;
+    }
+    return false;
+}
+function checkKeysIsExist(keys,key){
+    for (let i=0,l=keys.length; i<l; i++){
+        if (key.toLowerCase() === keys[i].nama.toLowerCase()) {
+            return true;
+        }
+        return false;
+    }
+}
 /**
  * 获取最热数据的异步action
  */
 export function onSearch(inputKey,pageSize,token,favorireDao,popularKeys,callback){
     return dispatch=>{
         dispatch({type: Types.SEARCH_REFRESH});
-        let dataStore = new DataStore();
-        dataStore.fetchData(url,FLAG_STORAGE.flag_popular)
-            .then(data=>{
-                handleData(Types.POPULAR_REFRESH_SUCCESS,dispatch,storeName,data,pageSize,favorireDao);
-            }).catch(error=>{
-                console.log(error);
-                handleFail(Types.POPULAR_REFRESH_FAIL,dispatch,storeName,error);
-            })
+        fetch(getFetchUrl(inputKey)).then((response)=>{//如果任务取消，则不处理response
+            return hasCancel(token)?null:response.json();
+        }).then((responseData)=>{
+            if(hasCancel(token,true)){//如果任务取消，则不处理response
+                console.log('user cancel networking');
+                return;
+            }
+            if(responseData&&responseData.items&&responseData.items.length>0){
+                let items = responseData.items;
+                handleData(Types.SEARCH_REFRESH_SUCCESS,dispatch,{data: items},pageSize,favorireDao,{
+                    showBottomButton: !checkKeysIsExist(popularKeys,inputKey),
+                    inputKey,
+                });
+            }else{
+                const message = `没有找到关于${inputKey}的内容`;
+                dispatch({type: Types.SEARCH_FAIL,message:message});
+                doCallBack(callback,message);
+                return;
+            }
+        }).catch((e)=>{
+            console.log(e);
+            dispatch({type:Types.SEARCH_FAIL,error:e});
+        })
+    }
+}
+export function onSearchCancel(token) {
+    return dispatch=>{
+        CACEL_TOKENS.push(token);
+        dispatch({type:Types.SEARCH_CANCEL});
     }
 }
 /**
  * 加载更多
  */
-export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],callback,favorireDao){
+export function onLoadMoreSearch(pageIndex,pageSize,dataArray=[],callback,favorireDao){
     return dispatch => {
         setTimeout(() => {
             if((pageIndex-1)*pageSize >=dataArray.length){//已全部加载
@@ -36,7 +75,6 @@ export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],call
                 dispatch({
                     type: Types.POPULAR_LOAD_MORE_FAIL,
                     error:'no more data',
-                    storeName: storeName,
                     pageIndex: --pageIndex,
                 })
             }else{
@@ -45,9 +83,8 @@ export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],call
                 _projectModels(items,favorireDao,(projectModels)=>{
                     dispatch({
                         type: Types.POPULAR_LOAD_MORE_SUCCESS,
-                        storeName,
                         pageIndex,
-                        projectModes: projectModels,
+                        projectModels: projectModels,
                     })
                 })
                 
@@ -64,7 +101,7 @@ export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],call
 //     dispatch({
 //         type: Types.POPULAR_REFRESH_SUCCESS,
 //         items: data && data.data && data.data.items,
-//         projectModes: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
+//         projectModels: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
 //         storeName,
 //         pageIndex:1,
 //     });

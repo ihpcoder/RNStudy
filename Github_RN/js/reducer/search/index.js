@@ -1,10 +1,15 @@
 import Types from '../../action/types'
 
 const defaultState = {
-    
+    showText: '搜索',
+    items: [],
+    isLoading: false,
+    projectModels: [],
+    hideLoadingMore: true,
+    showBottomButton: false,
 };
 /**
- * popular:{
+ * search:{
  *      java:{
  *          items:[],
  *          isLoading:false,
@@ -22,35 +27,28 @@ const defaultState = {
  *          isLoading:false,
  *      },
  * }
- * state 树横向扩展
- *  如何动态设置store 和动态获取store（难点 storekey不固定）
+
  * 
  * 
  */
 
 export default function onAction(state = defaultState, action) {
     switch(action.type){
-        case Types.POPULAR_REFRESH:{
+        case Types.SEARCH_REFRESH:{
             return{
                 ...state,
-                [action.storeName]:{
-                    ...state[action.storeName],
-                    isLoading: true,
-                    hideLoadingMore: true,
-                }
+                isLoading: true,
+                hideLoadingMore: true,
             }
         }
-        case Types.POPULAR_REFRESH_SUCCESS:{
+        case Types.SEARCH_REFRESH_SUCCESS:{
             return{
                 ...state,
-                [action.storeName]:{
-                    ...state[action.storeName],
-                    items:action.items,
-                    isLoading: false,
-                    hideLoadingMore: action.hideLoadingMore,
-                    projectModels: action.projectModels,
-                    pageIndex: action.pageIndex,
-                }
+                items:action.items,
+                isLoading: false,
+                hideLoadingMore: action.hideLoadingMore,
+                projectModels: action.projectModels,
+                pageIndex: action.pageIndex,
             }
         }
         case Types.POPULAR_REFRESH_FAIL:{

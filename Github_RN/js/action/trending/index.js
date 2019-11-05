@@ -36,13 +36,13 @@ export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],cal
                 })
             }else{
                 let max = pageSize*pageIndex > dataArray.length ? dataArray.length:pageIndex*pageSize;
-                let projectModes = dataArray.slice(0,max);
-                _projectModels(projectModes,favoriteDao,(projectModels)=>{
+                let projectModels = dataArray.slice(0,max);
+                _projectModels(projectModels,favoriteDao,(projectModels)=>{
                     dispatch({
                         type: Types.TRENDING_LOAD_MORE_SUCCESS,
                         storeName,
                         pageIndex,
-                        projectModes: projectModels,
+                        projectModels: projectModels,
                     });
                 });
                 
@@ -59,7 +59,7 @@ export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],cal
 //     dispatch({
 //         type: Types.TRENDING_REFRESH_SUCCESS,
 //         items: data && data.data && data.data.items,
-//         projectModes: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
+//         projectModels: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
 //         storeName,
 //         pageIndex:1,
 //     });

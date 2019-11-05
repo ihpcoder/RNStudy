@@ -41,7 +41,7 @@ export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],call
                         type: Types.POPULAR_LOAD_MORE_SUCCESS,
                         storeName,
                         pageIndex,
-                        projectModes: projectModels,
+                        projectModels: projectModels,
                     })
                 })
                 
@@ -58,7 +58,7 @@ export function onLoadMorePopular(storeName,pageIndex,pageSize,dataArray=[],call
 //     dispatch({
 //         type: Types.POPULAR_REFRESH_SUCCESS,
 //         items: data && data.data && data.data.items,
-//         projectModes: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
+//         projectModels: pageSize>fixItems.length?fixItems:fixItems.slice(0,pageSize),
 //         storeName,
 //         pageIndex:1,
 //     });

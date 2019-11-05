@@ -13,7 +13,7 @@ import Utils from '../util/Utils'
  * @param {*} data 
  * @param {*} pageSize 
  */
-export function handleData(type,dispatch,storeName,data,pageSize,favoriteDao){
+export function handleData(type,dispatch,storeName,data,pageSize,favoriteDao,params){
     let fixItems = [];
     if(data&&data.data){
         if(Array.isArray(data.data)){
@@ -27,10 +27,11 @@ export function handleData(type,dispatch,storeName,data,pageSize,favoriteDao){
         dispatch({
             type: type,
             items: fixItems,
-            projectModes: projectModels,
+            projectModels: projectModels,
             storeName,
             pageIndex:1,
             hideLoadingMore:pageSize>fixItems.length,
+            ...params,
         });
     })
     
@@ -46,9 +47,7 @@ export async function _projectModels(showItems,favoriteDao,callback){
     for(let i=0,len = showItems.length;i<len;i++ ){
         projectModels.push(new ProjectModel(showItems[i],Utils.checkFavorite(showItems[i],keys)));
     }
-    if(typeof callback ==='function'){
-        callback(projectModels);
-    }
+    doCallBack(callback,projectModels);
 }
 /**
  * 失败处理
@@ -63,4 +62,10 @@ export function handleFail(type,dispatch,storeName,error){
         error,
         storeName
     });
+}
+
+export const doCallBack = (callback,object) => {
+    if(typeof callback === 'function'){
+        callback(object);
+    }
 }
