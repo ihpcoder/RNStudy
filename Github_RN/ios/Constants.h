@@ -9,5 +9,13 @@
 #ifndef Constants_h
 #define Constants_h
 
+/*友盟相关配置**/
+#define UM_AppKey     @"5dc261890cafb23164000d15"
+#define UM_ChannelId  @"App Store"
+#define AppKey_WB     @""
+#define AppSecret_WB  @""
+#define AppKey_WX     @""
+#define AppSecret_WX  @""
+
 
 #endif /* Constants_h */

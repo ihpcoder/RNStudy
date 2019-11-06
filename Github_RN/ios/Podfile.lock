@@ -231,6 +231,10 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - UMCAnalytics (6.0.3):
+    - UMCCommon
+  - UMCCommon (2.0.1)
+  - UMCSecurityPlugins (1.0.6)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -268,9 +272,16 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - UMCAnalytics
+  - UMCCommon
+  - UMCSecurityPlugins
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - UMCAnalytics
+    - UMCCommon
+    - UMCSecurityPlugins
   trunk:
     - boost-for-react-native
 
@@ -373,8 +384,11 @@ SPEC CHECKSUMS:
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  UMCAnalytics: ff58714ada407682c4a07548156f94bcec92f055
+  UMCCommon: 0263a057a2e1ae1da4c8308541e56904a493ce13
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 3d518566f41cbb4d839a19ce5b60e5776632166e
+PODFILE CHECKSUM: dd3cce45bbd3f96919e560eeaa877498acee8763
 
 COCOAPODS: 1.8.1

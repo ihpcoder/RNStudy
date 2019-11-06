@@ -11,6 +11,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
+import AnalyticsUtil from '../util/AnalyticsUtil'
 import NavigationUtil from '../navigator/NaviagtionUtil';
 import FetchDemoPage from './FetchDemoPage'
 import PopularItem from '../common/PopularItem'
@@ -42,7 +43,7 @@ class PopularPage extends Component {
         const {theme} = this.props;
         if(!this.tabs||!ArrayUtil.isEquArray(keys,this.preLanguages)){
             this.tabs = {};
-            this.preLanguages = keys;
+            this.preLanguages = [...keys];
             keys.forEach((item, index) => {
                 if (item.checked) {
                    this.tabs[`tab${index}`] = {
@@ -61,7 +62,8 @@ class PopularPage extends Component {
         const {theme} = this.props;
         return <TouchableOpacity
             onPress = {()=>{
-                NavigationUtil.goPage({theme},'SearchPage');
+                AnalyticsUtil.onEvent('searchButtonClick');
+                NavigationUtil.goPage({...this.props},'SearchPage');
             }}
         >
             <View style={{padding:5,marginRight: 8}}>

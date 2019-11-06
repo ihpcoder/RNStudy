@@ -6,15 +6,18 @@
  */
 
 #import "AppDelegate.h"
-
+#import "Constants.h"
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-
+#import <UMCommon/UMCommon.h>
+#import "UMAnalytics/MobClick.h"
+#import "RNUMConfigure.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [self initUmeng];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"Github_RN"
@@ -29,7 +32,11 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
-
+-(void)initUmeng{
+  [MobClick setScenarioType:E_UM_NORMAL];
+//  [UMConfigure setLogEnabled:YES];
+  [RNUMConfigure initWithAppkey:UM_AppKey channel:UM_ChannelId];
+}
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG

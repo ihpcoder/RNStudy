@@ -33,7 +33,7 @@ export function onSearch(inputKey,pageSize,token,favorireDao,popularKeys,callbac
             }
             if(responseData&&responseData.items&&responseData.items.length>0){
                 let items = responseData.items;
-                handleData(Types.SEARCH_REFRESH_SUCCESS,dispatch,{data: items},pageSize,favorireDao,{
+                handleData(Types.SEARCH_REFRESH_SUCCESS,dispatch,null,{data: items},pageSize,favorireDao,{
                     showBottomButton: !Utils.checkKeysIsExist(popularKeys,inputKey),
                     inputKey,
                 });
@@ -66,18 +66,20 @@ export function onLoadMoreSearch(pageIndex,pageSize,dataArray=[],callback,favori
                     callback('no more data');
                 }
                 dispatch({
-                    type: Types.POPULAR_LOAD_MORE_FAIL,
+                    type: Types.SEARCH_LOAD_MORE_FAIL,
                     error:'no more data',
                     pageIndex: --pageIndex,
+                    hideLoadingMore: true,
                 })
             }else{
                 let max = pageSize*pageIndex > dataArray.length ? dataArray.length:pageIndex*pageSize;
                 let items = dataArray.slice(0,max);
                 _projectModels(items,favorireDao,(projectModels)=>{
                     dispatch({
-                        type: Types.POPULAR_LOAD_MORE_SUCCESS,
+                        type: Types.SEARCH_LOAD_MORE_SUCCESS,
                         pageIndex,
                         projectModels: projectModels,
+                        
                     })
                 })
                 

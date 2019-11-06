@@ -37,9 +37,9 @@ class SearchPage extends Component {
     }
     loadData(loadMore) {
         const url = this.getFetchUrl(this.storeName);
-        const { onLoadLanguage, onSearch, search, keys } = this.props;
+        const { onLoadMoreSearch, onSearch, search, keys } = this.props;
         if (loadMore) {
-            onLoadMoreSearch(search.pageIndex, pageSize, search.items, callback => {
+            onLoadMoreSearch(++search.pageIndex, pageSize, search.items, callback => {
                 this.refs.toast.show('没有更多了');
             }, this.favoriteDao);
         } else {
@@ -74,7 +74,7 @@ class SearchPage extends Component {
     saveKey() {
         const {keys} = this.props;
         let key = this.inputKey;
-        if(Utils.checkKeyIsExit(keys,key)){
+        if(Utils.checkKeysIsExist(keys,key)){
             this.refs.toast.show(`${key}标签已存在`);
         }else{
             key = {
@@ -90,7 +90,7 @@ class SearchPage extends Component {
     }
     _renderItem(data) {
         const projectModel = data.item;
-        const { theme } = this.props;
+        const { theme } = this.params;
         return (
             <PopularItem
                 // key={item.item.id}
@@ -162,28 +162,6 @@ class SearchPage extends Component {
         if (Platform.OS === 'ios') {
             statusBar = <View style={[styles.statusBar, { backgroundColor: theme.themeColor }]}></View>
         }
-        let listView = !isLoading ? <FlatList
-            contentInset={{ bottom: 45 }}
-            data={projectModels}
-            refreshing={isLoading}
-            renderItem={data => this._renderItem(data)}
-            keyExtractor={item => ('' + item.item.id)}
-            onRefresh={() => this.loadData()}
-            ListFooterComponent={() => this.genIndicator()}
-            onEndReached={() => {
-                setTimeout(() => {
-                    if (this.canLoadMore) {
-                        this.canLoadMore = false;
-                        this.loadData(true);
-                    }
-                }, 100);
-
-            }}
-            onEndReachedThreshold={0.1}
-            onMomentumScrollBegin={() => {
-                this.canLoadMore = true;
-            }}
-        /> : null;
         let bottomButton = showBottomButton ? <TouchableOpacity
             style={[styles.bottomButton, { backgroundColor: theme.themeColor }]}
             onPress={() => {
@@ -201,10 +179,32 @@ class SearchPage extends Component {
             animating={isLoading}
         /> : null;
 
-        let resultView = <View>
-            {indicatorView}
-            {listView}
-        </View>;
+        let resultView = isLoading ? <ActivityIndicator
+        style={styles.centering}
+        size='large'
+        animating={isLoading}
+        /> : <FlatList
+        contentInset={{ bottom: 45 }}
+        data={projectModels}
+        refreshing={isLoading}
+        renderItem={data => this._renderItem(data)}
+        keyExtractor={item => ('' + item.item.id)}
+        onRefresh={() => this.loadData()}
+        ListFooterComponent={() => this.genIndicator()}
+        onEndReached={() => {
+            setTimeout(() => {
+                if (this.canLoadMore) {
+                    this.canLoadMore = false;
+                    this.loadData(true);
+                }
+            }, 100);
+
+        }}
+        onEndReachedThreshold={0.1}
+        onMomentumScrollBegin={() => {
+            this.canLoadMore = true;
+        }}
+        /> ;
         return (
             <View style={styles.container}>
                 {statusBar}
@@ -235,7 +235,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignContent: 'center',
     },
     statusBar: {
@@ -259,7 +258,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        backgroundColor:'red'
     },
     TextInput: {
         flex: 1,

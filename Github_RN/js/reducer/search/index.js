@@ -6,7 +6,7 @@ const defaultState = {
     isLoading: false,
     projectModels: [],
     hideLoadingMore: true,
-    showBottomButton: true,
+    showBottomButton: false,
 };
 /**
  * search:{
@@ -74,7 +74,6 @@ export default function onAction(state = defaultState, action) {
             return {
                 ...state,
                 projectModels: action.projectModels,
-                hideLoadingMore:false,
                 pageIndex: action.pageIndex,
             }
         }
