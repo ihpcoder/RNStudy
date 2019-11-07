@@ -16,10 +16,11 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
+import SplashScreen from 'react-native-splash-screen'
 export default class Welcome extends Component {
 
     componentDidMount(){
+      SplashScreen.hide();
      this.timer =  setTimeout(()=>{
         NavigationUtil.resetToHomePage(this.props);
       },200);

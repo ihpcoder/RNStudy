@@ -3,9 +3,18 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 source 'https://github.com/CocoaPods/Specs.git'
 target 'Github_RN' do
   # Pods for Github_RN
-  pod 'UMCCommon'  '~> 2.1.1'
+  
+  pod 'UMCCommon'
   pod 'UMCSecurityPlugins'
   pod 'UMCAnalytics'
+  pod 'UMCCommonLog'
+  # pod 'UMCShare/UI'
+  # pod 'UMCShare/Social/ReducedWechat'
+  # pod 'UMCShare/Social/ReducedQQ'
+  # pod 'UMCShare/Social/ReducedSina'
+  # pod 'UMCShare/Social/ReducedEmail'
+  # pod 'UMCShare/Social/ReducedSMS'
+  
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
