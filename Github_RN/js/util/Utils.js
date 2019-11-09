@@ -1,6 +1,6 @@
 export default class Utils {
     static checkFavorite(item, items = []) {
-        if (!item) return false;
+        if (!item||!items) return false;
         let id = item.id ? item.id : item.fullName;
         id = id+'';
         for (let i=0;i<items.length;i++){

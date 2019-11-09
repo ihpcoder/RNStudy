@@ -42,19 +42,22 @@ class TrendingPage extends Component {
         }
     }
     _getTabs(){
-        const tabs = {};
         const {languages,theme} = this.props;
-        languages.forEach((item,index)=>{
-            if(item.checked){
-                tabs[`tab${index}`] = {
-                    screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} theme={theme}/>,
-                    navigationOptions:{
-                        title:item.name
+        if(!this.tabs||!ArrayUtil.isEquArray(this.preLanguages,languages)){
+            this.preLanguages = languages;
+            this.tabs = {};
+            languages.forEach((item,index)=>{
+                if(item.checked){
+                    this.tabs[`tab${index}`] = {
+                        screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} theme={theme}/>,
+                        navigationOptions:{
+                            title:item.name
+                        }
                     }
                 }
-            }
-        });
-        return tabs;
+            });
+        }
+        return this.tabs;
     }
     onSelectTimeSpan(item){
         this.dialog.dismiss();
@@ -96,26 +99,6 @@ class TrendingPage extends Component {
             }}
         />
     }
-    _tabNav(){
-        const {languages,theme} = this.props;
-        if(languages.length>0){
-            if(!this.tabNav||!ArrayUtil.isEquArray(this.preLanguages,languages)){
-            this.preLanguages = languages;
-            this.tabNav = createAppContainer(createMaterialTopTabNavigator(this._getTabs(),{
-                    tabBarOptions:{
-                        tabStyle:styles.tabStyle,
-                        upperCaseLabel:false,
-                        scrollEnabled:true,
-                        style:{backgroundColor:theme.themeColor},
-                        indicatorStyle:styles.indicatorStyle,
-                        labelStyle:styles.labelStyle,
-                    },
-                    lazy: true,
-                }));
-            }
-        }
-        return this.tabNav;
-    }
     render(){
         const {languages,theme} = this.props;
         let statusBar = {
@@ -127,10 +110,21 @@ class TrendingPage extends Component {
             statusBar={statusBar}
             style={theme.styles.navBar}
         />
-        const AppContainer = this._tabNav();
+        const TabNavigator = languages.length > 0 ? createMaterialTopTabNavigator(this._getTabs(), {
+            tabBarOptions: {
+                tabStyle: styles.tabStyle,
+                upperCaseLabel: false,
+                scrollEnabled: true,
+                style: { backgroundColor: theme.themeColor },
+                indicatorStyle: styles.indicatorStyle,
+                labelStyle: styles.labelStyle,
+            },
+            lazy: true,
+        }):null;
+        const AppContainer = TabNavigator?createAppContainer(TabNavigator):null;
       return <View style={{flex:1,marginTop:0}}>
             {navgarionBar}
-            {languages.length>0?<AppContainer />:null}
+            {AppContainer?<AppContainer />:null}
             {this.renderTrendingDialog()}
       </View>
       

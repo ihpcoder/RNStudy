@@ -22,11 +22,11 @@
   [self initUmeng];
   
   NSURL *jsCodeLocation;
-  //#ifdef DEBUG
-//      jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-  //#else
+  #ifdef DEBUG
+      jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.js" fallbackResource:nil];
+  #else
       jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];;
-  //#endif
+  #endif
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 //  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
